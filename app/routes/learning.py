@@ -107,35 +107,60 @@ async def test_concept(request: Request, chapter_id: int, concept_id: int):
 
         print(concept_details, user_experience, user_preference, prompt_preference[user_preference])
 
-        demo_question = {
-            "question": "What is a linked list?",
-            "options": ["A data structure", "A programming language", "A database system", "None of the above"],
-            "correct_answer": "A data structure",
-            "explanation": "A linked list is a linear data structure in which elements are stored in nodes, each containing a value and a reference to the next node."
-        }
-
         prompt = f"""
         You are a tutor for data structures.
         Topic: {concept_details[2]}
         Difficulty: {user_experience}
         Student Preference: {prompt_preference[user_preference]}
-        Generate {"5" if user_preference == "Prefer more pracice questions" else "3"} MCQ with 4 options and specify the correct option index and a short explanation.
+        Generate {"5" if user_preference == "Prefer more pracice questions" else "3"} MCQ with 4 options and specify the correct answer and explanation.
 
-        Instructions:
-        - Your job is to return a JSON response with a structure as of question, options as an array, correct_option and an explaination.
-        - Based on the user experience, ask questions which can help grow the student.
-
-        Example:
-        {demo_question}
+        IMPORTANT: Return ONLY a valid JSON array format. No additional text or explanation outside the JSON.
+        
+        Required JSON structure:
+        [
+            {{
+                "question": "Your question here",
+                "options": ["Option 1", "Option 2", "Option 3", "Option 4"],
+                "correct_answer": "Option 1",
+                "explanation": "Brief explanation here"
+            }}
+        ]
+        
+        Based on the user experience level ({user_experience}), create questions that help the student grow.
         """
 
-        # gemini = get_gemini_service()
-        # res = gemini.generate_response(system_prompt=prompt)
-        # print(res)
+        gemini = get_gemini_service()
+        res = gemini.generate_response(system_prompt=prompt)
+        print(res)
 
-
-
-        # return successResponse(data={"questions": res})
+        import json
+        questions_data = json.loads(res)
+        
+        saved_questions = []
+        for question_data in res: 
+            cursor.execute(
+                "INSERT INTO user_questions (user_id, chapter_id, concept_id, question) VALUES (%s, %s, %s, %s)",
+                (request.session.get("user_id"), chapter_id, concept_id, question_data["question"])
+            )
+            question_id = cursor.lastrowid
+            
+            for option in question_data["options"]:
+                cursor.execute(
+                    "INSERT INTO question_options (question_id, options, isCorrect) VALUES (%s, %s, %s)",
+                    (question_id, option, 1 if option == question_data["correct_answer"] else 0)
+                )
+            
+            saved_questions.append({
+                "question_id": question_id,
+                "question": question_data["question"],
+                "options": question_data["options"],
+                "correct_answer": question_data["correct_answer"],
+                "explanation": question_data["explanation"]
+            })
+        
+        commitValues(conn)
+        closeConnection(conn, cursor)
+        return successResponse(data={"questions": saved_questions})
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

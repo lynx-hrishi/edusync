@@ -67,6 +67,7 @@ create table user_questions (
 create table question_options (
 	question_id int,
     options varchar(255),
+    isCorrect bool,
     foreign key(question_id) references user_questions(question_id)
 );
 
