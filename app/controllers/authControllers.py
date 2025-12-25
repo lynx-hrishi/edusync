@@ -1,6 +1,5 @@
 from fastapi import APIRouter, HTTPException, Form, Request
 from fastapi.responses import JSONResponse
-from app.models import LoginRequest, RegisterRequest
 from app.services.registerService import registerUserService, saveUserPreferenceService
 from app.services.loginUserService import loginUserService
 import json

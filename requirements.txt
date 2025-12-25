@@ -6,3 +6,4 @@ mysql-connector
 google-generativeai
 python-dotenv
 itsdangerous
+jinja2

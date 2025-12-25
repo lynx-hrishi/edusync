@@ -1,10 +1,12 @@
 from fastapi import APIRouter, HTTPException, Request, Form
 from fastapi.responses import JSONResponse
+from fastapi.templating import Jinja2Templates
 from app.models import SavePreferenceRequest, CheckAnswerRequest, Chapter, Concept, Question, LearningPath
 from typing import List
 from app.controllers.authControllers import saveUserPreferenceService
 
 router = APIRouter()
+templates = Jinja2Templates(directory="app/Template")
 
 # Mock data
 preferences_db = []
@@ -48,7 +50,7 @@ async def saveUserPreference(request: Request, payload: str = Form(...)):
 @router.get("/learning-path")
 async def get_learning_path(request: Request):
     try:
-        pass
+        return templates.TemplateResponse("Dashboard.html", {"request": request})
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
     

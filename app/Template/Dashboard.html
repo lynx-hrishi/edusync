@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>DSA Dashboard</title>
+    <link rel="stylesheet" href="/static/Dashboard.css">
+</head>
+
+<body>
+
+    <div class="dashboard">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <h2>EduSync</h2>
+            <ul>
+                <li class="active">Dashboard</li>
+                <li><a href="/roadmap">Roadmap</a></li>
+                <li>Practice</li>
+                <li>Mock Tests</li>
+                <li>Notes</li>
+                <li><a href="/profile">Profile</a></li>
+            </ul>
+        </aside>
+
+
+
+        <main class="main">
+            <div class="topbar">
+                <h3>Hello, Student 👋</h3>
+                <div class="streak">🔥 1 Day Streak</div>
+            </div>
+
+            <div class="cards">
+                <div class="card">
+                    <h4>Level</h4>
+                    <p>Beginner</p>
+                </div>
+                <div class="card">
+                    <h4>Problems Solved</h4>
+                    <p>2</p>
+                </div>
+                <div class="card">
+                    <h4>Chapters Completed</h4>
+                    <p>2 / 25</p>
+                </div>
+                <div class="card highlight">
+                    <h4>Current Topic</h4>
+                    <p>Arrays</p>
+                </div>
+            </div>
+
+            <!-- Pragress Section -->
+            <section class="progress-section">
+                <h3>DSA Roadmap</h3>
+
+                <div class="progress-item">
+                    <span>Arrays</span>
+                    <div class="bar">
+                        <div class="fill arrays">70%</div>
+                    </div>
+                </div>
+
+                <div class="progress-item">
+                    <span>Strings</span>
+                    <div class="bar">
+                        <div class="fill strings">0%</div>
+                    </div>
+                </div>
+
+                <div class="progress-item">
+                    <span>Recursion</span>
+                    <div class="bar">
+                        <div class="fill recursion">0%</div>
+                    </div>
+                </div>
+
+                <div class="progress-item">
+                    <span>Linked List</span>
+                    <div class="bar">
+                        <div class="fill linkedlist">0%</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Continue Learning -->
+            <section class="continue">
+                <div>
+                    <h3>Continue Learning</h3>
+                    <p>📘 Arrays → Prefix Sum</p>
+                </div>
+                <button>Resume</button>
+            </section>
+
+        </main>
+    </div>
+
+</body>
+
+</html>

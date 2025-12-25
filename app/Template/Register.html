@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login Page</title>
+    <link rel="stylesheet" href="/static/Register.css" />
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="login-card">
+            <h2 class="logo">EduSync</h2>
+            <h3>Register</h3>
+
+            <form id="loginForm">
+                <label>Username</label>
+                <input type="text" placeholder="username" id="username" required />
+                
+                <label>Mobile</label>
+                <input type="number" placeholder="+91" id="mobile" required />
+
+                <label>Email</label>
+                <input type="email" placeholder="username@gmail.com" id="email" required />
+
+                <label>Password</label>
+                <div class="password-box">
+                    <input type="password" id="password" placeholder="Password" id="password" required />
+                    <span id="toggle">👁</span>
+                </div>
+
+                <a href="#" class="forgot">Forgot Password?</a>
+
+                <button type="submit">Register</button>
+            </form>
+
+            <p class="register">
+                Already have an account? <a href="/login">Login</a>
+            </p>
+        </div>
+    </div>
+
+    <script src="/app/static/Register.js"></script>
+</body>
+
+</html>
