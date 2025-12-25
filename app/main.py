@@ -21,7 +21,7 @@ globalErrorHandler(app)
 
 app.include_router(auth_router, prefix="/api/auth", tags=["Authentication"])
 app.include_router(learning_router, prefix="/api", tags=["Learning"])
-
+ 
 @app.get("/")
 async def root():
     return {"message": "EduSync API is running"}
