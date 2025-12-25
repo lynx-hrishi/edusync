@@ -58,7 +58,7 @@
      color: #fff;
  }
 
- /* HERO */
+
  .hero {
      background: linear-gradient(135deg, #8549dd, #281a3e);
      color: #fff;
@@ -100,16 +100,12 @@
 
  }
 
- /* .btn-secondary {
-            border: 1px solid #fff;
-            color: #fff;
-        } */
 
  .hero img {
      width: 320px;
  }
 
- /* SUCCESS */
+
  .success {
      text-align: center;
      padding: 60px 20px;
@@ -133,7 +129,7 @@
      color: white;
  }
 
- /* FEATURES */
+
  .features {
      padding: 60px 20px;
      text-align: center;
@@ -165,7 +161,7 @@
      color: #666;
  }
 
- /* CTA */
+
  .cta {
      text-align: center;
      padding: 50px 20px;
@@ -190,18 +186,6 @@
      color: white;
  }
 
- /* RESPONSIVE */
- @media (max-width: 900px) {
-     .hero {
-         flex-direction: column;
-         text-align: center;
-     }
-
-     .hero img {
-         margin-top: 30px;
-     }
- }
-
 
  #About {
      display: flex;
@@ -212,20 +196,439 @@
      margin: auto;
  }
 
- #About img{
-    width: 50vw;
-    height: 30vw;
+ #About img {
+     width: 50vw;
+     height: 30vw;
  }
 
- .img-text1{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 70vw;
-    margin: auto;
-    gap: 200px;
+ .img-text1 {
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     width: 70vw;
+     margin: 105px auto;
+     gap: 200px;
  }
 
- .img-text1 img{
-    height: 20vw;
+ #img2 {
+     height: 280px;
+     width: 709px;
+ }
+
+ #img3 {
+     height: 400px;
+     width: 700px;
+ }
+
+ .hero1 {
+     display: flex;
+     gap: 50px;
+     width: 99vw;
+     margin: 10px auto;
+     background: linear-gradient(135deg, #8549dd, #281a3e);
+     padding: 50px 80px;
+     border-top-left-radius: 80px;
+     border-top-right-radius: 80px;
+ }
+
+ .content1 {
+     display: flex;
+     flex-direction: column;
+     justify-content: center;
+     align-items: center;
+ }
+
+ .content1 a {
+     color: white;
+ }
+
+ .img-text2 {
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     width: 99vw;
+     margin: 105px auto;
+     gap: 200px;
+     background: linear-gradient(135deg, #8549dd, #281a3e);
+     padding: 50px 80px;
+     border-bottom-left-radius: 80px;
+     border-bottom-right-radius: 80px;
+ }
+
+
+
+
+ .testimonial {
+     display: flex;
+     justify-content: center;
+     padding: 90px;
+     gap: 200px;
+ }
+
+
+ .left {
+     max-width: 480px;
+ }
+
+ .tag {
+     letter-spacing: 3px;
+     font-size: 13px;
+     color: white;
+     font-weight: 500;
+ }
+
+ .left h1 {
+     font-size: 38px;
+     color: white;
+     margin: 15px 0 20px;
+ }
+
+ .left p {
+     color: white;
+     line-height: 1.8;
+     margin-bottom: 16px;
+ }
+
+ .cta {
+     margin-top: 25px;
+     padding: 14px 22px;
+     border: 1.5px solid #5b5ce2;
+     background: transparent;
+     color: white;
+     border-radius: 30px;
+     font-size: 15px;
+     cursor: pointer;
+     display: inline-flex;
+     align-items: center;
+     gap: 12px;
+ }
+
+ .cta span {
+     width: 34px;
+     height: 34px;
+     border: 1px solid #5b5ce2;
+     border-radius: 50%;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+ }
+
+
+ .right {
+     position: relative;
+ }
+
+ .image-box {
+     position: relative;
+ }
+
+ .image-box img {
+     width: 360px;
+     border-radius: 20px;
+ }
+
+ .arrow {
+     position: absolute;
+     right: -22px;
+     top: 50%;
+     transform: translateY(-50%);
+     width: 44px;
+     height: 44px;
+     border-radius: 50%;
+     border: none;
+     background: #ffffff;
+     font-size: 22px;
+     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+     cursor: pointer;
+ }
+
+
+ .review-card {
+     position: absolute;
+     bottom: -40px;
+     right: -30px;
+     background: #ffffff;
+     width: 420px;
+     padding: 25px 30px;
+     border-radius: 14px;
+     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+ }
+
+ .bar {
+     width: 6px;
+     height: 100%;
+     background: linear-gradient(180deg, #f48c06, #ff6f61);
+     position: absolute;
+     left: 0;
+     top: 0;
+     border-radius: 10px 0 0 10px;
+ }
+
+ .review-text {
+     color: #696984;
+     line-height: 1.7;
+     margin-bottom: 20px;
+ }
+
+ .review-footer {
+     display: flex;
+     justify-content: space-between;
+     align-items: center;
+ }
+
+ .name {
+     font-weight: 600;
+     color: #2f327d;
+ }
+
+ .rating {
+     color: #f59e0b;
+     font-size: 14px;
+     text-align: right;
+ }
+
+ .rating small {
+     display: block;
+     color: #80819a;
+     font-size: 12px;
+ }
+
+
+ .footer {
+     background: linear-gradient(135deg, #5c16c6, #2a0f55);
+     padding: 20px 60px;
+     color: white;
+     padding: 60px 90px 20px;
+ }
+
+ .footer-container {
+     display: flex;
+     justify-content: space-between;
+     flex-wrap: wrap;
+     gap: 40px;
+ }
+
+ .footer-brand {
+     max-width: 320px;
+ }
+
+ .footer-brand h2 {
+     font-size: 26px;
+     margin-bottom: 12px;
+ }
+
+ .footer-brand p {
+     font-size: 14px;
+     line-height: 1.7;
+     color: #d1d2ff;
+ }
+
+ .footer-links h3,
+ .footer-cta h3 {
+     font-size: 18px;
+     margin-bottom: 14px;
+ }
+
+ .footer-links ul {
+     list-style: none;
+     padding: 0;
+ }
+
+ .footer-links li {
+     margin-bottom: 10px;
+ }
+
+ .footer-links a {
+     color: #d1d2ff;
+     font-size: 14px;
+     text-decoration: none;
+ }
+
+ .footer-links a:hover {
+     color: #ffffff;
+     text-decoration: underline;
+ }
+
+ .footer-cta p {
+     font-size: 14px;
+     color: #d1d2ff;
+     margin-bottom: 15px;
+ }
+
+ .footer-btn {
+     display: inline-block;
+     padding: 10px 18px;
+     background: #5b5ce2;
+     color: #ffffff;
+     border-radius: 20px;
+     font-size: 14px;
+     text-decoration: none;
+ }
+
+ .footer-btn:hover {
+     background: #6c6dff;
+ }
+
+ .footer-bottom {
+     border-top: 1px solid rgba(255, 255, 255, 0.2);
+     margin-top: 40px;
+     padding-top: 15px;
+     text-align: center;
+     font-size: 13px;
+     color: #c7c8ff;
+ }
+
+
+
+
+
+
+
+ /* =========================
+   RESPONSIVE DESIGN
+========================= */
+
+ /* ---------- Tablets (≤1024px) ---------- */
+ @media (max-width: 1024px) {
+
+     header {
+         padding: 20px 30px;
+     }
+
+     .hero {
+         flex-direction: column;
+         text-align: center;
+         gap: 40px;
+         padding: 50px 30px;
+     }
+
+     .hero img {
+         width: 260px;
+     }
+
+     .stats {
+         gap: 30px;
+     }
+
+     .feature-box {
+         gap: 20px;
+     }
+
+     .testimonial {
+         flex-direction: column;
+         gap: 60px;
+         padding: 60px 30px;
+     }
+
+     .review-card {
+         position: static;
+         width: 100%;
+         margin-top: 20px;
+     }
+
+     .footer {
+         padding: 50px 40px 20px;
+     }
+ }
+
+
+ @media (max-width: 768px) {
+
+     /* Navbar */
+     .navbar {
+         flex-direction: column;
+         gap: 20px;
+     }
+
+     nav ul {
+         flex-wrap: wrap;
+         justify-content: center;
+         gap: 15px;
+     }
+
+     .media img {
+         width: 350px;
+     }
+
+     /* Hero */
+     .hero {
+         padding: 40px 20px;
+         border-radius: 0 0 40px 40px;
+     }
+
+     .hero-text h1 {
+         font-size: 30px;
+     }
+
+     .hero-text p {
+         font-size: 14px;
+     }
+
+     .hero-buttons a {
+         display: inline-block;
+         margin-bottom: 10px;
+     }
+
+     /* About Section */
+     .img-text1,
+     .img-text2,
+     .hero1 {
+         flex-direction: column;
+         gap: 40px;
+         width: 100%;
+         padding: 40px 20px;
+         text-align: center;
+     }
+
+     #About img,
+     #img2,
+     #img3 {
+         width: 100%;
+         height: auto;
+     }
+
+     /* Cards */
+     .card {
+         width: 100%;
+         max-width: 320px;
+     }
+
+     /* Testimonial */
+     .left h1 {
+         font-size: 28px;
+     }
+
+     .image-box img {
+         width: 100%;
+     }
+
+     /* Footer */
+     .footer-container {
+         flex-direction: column;
+         text-align: center;
+     }
+
+     .footer-brand {
+         margin: auto;
+     }
+ }
+
+ /* ---------- Small Phones (≤480px) ---------- */
+ @media (max-width: 480px) {
+
+     .hero-text h1 {
+         font-size: 26px;
+     }
+
+     .left h1 {
+         font-size: 24px;
+     }
+
+     .review-card {
+         padding: 20px;
+     }
+
+     .footer {
+         padding: 40px 20px 15px;
+     }
  }

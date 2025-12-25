@@ -18,14 +18,14 @@ def loginUserService(payload):
     conn, cursor = connection_result
 
     try:
-        cursor.execute("SELECT password, user_id FROM users WHERE email = %s", (email,))
+        cursor.execute("SELECT password, user_id, username FROM users WHERE email = %s", (email,))
         user = cursor.fetchone()
         print(user)
         if user is None:
             return { "error": "User Not Found", "status": 404 }
         if user[0] != password:
             return { "error": "Incorrect Password", "status": 403 }
-        return user[1]
+        return [user[1], user[2]]
     except Exception as e:
         raise e 
     finally:

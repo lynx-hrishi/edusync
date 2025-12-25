@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>DSA Dashboard</title>
+    <title>EduSync</title>
     <link rel="stylesheet" href="/static/Dashboard.css">
 </head>
 
@@ -13,14 +13,14 @@
 
         <!-- Sidebar -->
         <aside class="sidebar">
-            <h2>EduSync</h2>
+            <h2><a href="/">EduSync</a></h2>
             <ul>
                 <li class="active">Dashboard</li>
                 <li><a href="/roadmap">Roadmap</a></li>
-                <li>Practice</li>
+                <!-- <li>Practice</li>
                 <li>Mock Tests</li>
-                <li>Notes</li>
-                <li><a href="/profile">Profile</a></li>
+                <li>Notes</li> -->
+                <li><a href="Profile.html">Profile</a></li>
             </ul>
         </aside>
 
@@ -28,28 +28,30 @@
 
         <main class="main">
             <div class="topbar">
-                <h3>Hello, {{ request.session["user_id"] }} 👋</h3>
+                <h3>Hello, {{ request.session['username'] }} 👋</h3>
                 <div class="streak">🔥 1 Day Streak</div>
             </div>
 
             <div class="cards">
                 <div class="card">
                     <h4>Level</h4>
-                    <p>Beginner</p>
+                    <p id="level"></p>
                 </div>
                 <div class="card">
                     <h4>Problems Solved</h4>
-                    <p>2</p>
+                    <p id="prbm-slvd"></p>
                 </div>
                 <div class="card">
                     <h4>Chapters Completed</h4>
-                    <p>2 / 25</p>
+                    <p id="chp-cmplete"></p>
                 </div>
                 <div class="card highlight">
                     <h4>Current Topic</h4>
-                    <p>Arrays</p>
+                    <p id="chp-name"></p>
                 </div>
             </div>
+            
+
 
             <!-- Pragress Section -->
             <section class="progress-section">
@@ -95,6 +97,7 @@
 
         </main>
     </div>
+    <script src="/static/Dashboard.js"></script>
 
 </body>
 

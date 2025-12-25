@@ -7,25 +7,28 @@
     <title>EduSync - E Learning Platform</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/static/style.css">
 </head>
 
 <body>
 
     <header>
+        
         <div class="navbar">
             <div class="logo">EduSync</div>
             <nav>
                 <ul>
                     <li><a href="index.html">Home</a></li>
-                    <li><a href="/Pages/Login.html">Notes</a></li>
-                    <li><a href="/Pages/Login.html">Mock Test</a></li>
-                    <li><a href="/Pages/About.html">About</a></li>
+                    <li><a href="/#">Notes</a></li>
+                    <li><a href="/#">Mock Test</a></li>
+                    <li><a href="/#">About</a></li>
+                    <li><a href="/#">Dashboard</a></li>
+                    <li><a href="/#">Goals</a></li>
                 </ul>
             </nav>
             <div class="nav-buttons">
-                <a href="/Pages/Login.html" class="login">Login</a>
-                <a href="/Pages/Register.html" class="signup">Register</a>
+                <a href="/static/Login.html" class="login">Login</a>
+                <a href="/static/Register.html" class="signup">Register</a>
             </div>
         </div>
     </header>
@@ -38,7 +41,7 @@
                 smarter with Customized online Learning Paths,and Real-time Assessments.
             </p>
             <div class="hero-buttons">
-                <a href="#" class="btn-primary">Enroll Now</a>
+                <a href="/static/Login.html" class="btn-primary">Enroll Now</a>
                 <!-- <a href="#" class="btn-secondary">Watch Video</a> -->
             </div>
         </div>
@@ -85,24 +88,144 @@
         </div>
     </section>
 
-    <section id="About">
-        <h1>What is EduSync?</h1>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet ducimus corrupti animi ullam minima quas porro,
-            est, mollitia illum ipsam voluptatum quasi, deleniti perspiciatis. Veritatis commodi eaque ad recusandae
-            laborum eius quo explicabo exercitationem totam molestiae nostrum quia at, iure odio, nemo eum nisi quasi
-            fuga perspiciatis, sed non perferendis?</p>
+    <section class="hero1">
+        <div class="content1">
 
-        <img src="/Assets/IMG/students.jpg" alt="students" srcset=""> <br><br>
+            <h1>
+                Everything you can do in a
+                <span>physical classroom</span>,
+                you can do with <span class="brand">EduSync</span>
+            </h1>
+
+            <p>
+                TOTC’s school management software helps traditional and online schools
+                manage scheduling, attendance, payments and virtual classrooms all in
+                one secure cloud-based system.
+            </p>
+
+            <a href="/static/Login.html" class="link">Learn more</a>
+        </div>
+
+        <div class="media">
+            <img src="/static/about_img.webp" alt="Classroom">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+        </div>
     </section>
 
     <section class="img-text1">
-        <img src="/Assets/IMG/quiz.png" alt="" srcset="">
+        <img id="img2" src="/static/quiz.png" alt="" srcset="">
         <div>
             <h2 class="content-Assessment">Assessments, Quizzes, Tests</h2>
             <p>Easily launch live assignment, quizzes, and tests. Student results are automatically entered in the
                 online gradebook</p>
         </div>
     </section>
+
+    <section class="img-text2">
+        <div>
+            <h2 class="content-Assessment">Assessments, Quizzes, Tests</h2>
+            <p>Easily launch live assignment, quizzes, and tests. Student results are automatically entered in the
+                online gradebook</p>
+        </div>
+        <img id="img3" src="/static/features.png" alt="" srcset="">
+    </section>
+
+
+    <section class="testimonial">
+        <div class="left">
+            <span class="tag">TESTIMONIAL</span>
+            <h1>What They Say?</h1>
+
+            <p>
+                TOTC has got more than 100k positive ratings from our users around the world.
+            </p>
+
+            <p>
+                Some of the students and teachers were greatly helped by the Skilline.
+            </p>
+
+            <p>
+                Are you too? Please give your assessment
+            </p>
+
+            <button class="cta">
+                Write your assessment
+                <span>→</span>
+            </button>
+        </div>
+        
+        <div class="right">
+            <div class="image-box">
+                <img src="/static/review2.jpg" alt="Student" width="250px">
+                <button class="arrow">›</button>
+            </div>
+
+            <div class="review-card">
+                <div class="bar"></div>
+                <p class="review-text">
+                    "Thank you so much for your help. It's exactly what I've been looking for.
+                    You won't regret it. It really saves me time and effort. EduSync is exactly
+                    what our Education has been lacking."
+                </p>
+
+                <div class="review-footer">
+                    <span class="name">Gloria Rose</span>
+                    <div class="rating">
+                        ★★★★★
+                        <small>12 reviews at Yelp</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+    <div class="footer-container">
+
+        <!-- Brand -->
+        <div class="footer-brand">
+            <h2>EduSync</h2>
+            <p>
+                EduSync is a personalized AI learning platform helping students
+                learn smarter with structured paths and real-time assessments.
+            </p>
+        </div>
+
+        <!-- Links -->
+        <div class="footer-links">
+            <h3>Quick Links</h3>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/#">About</a></li>
+                <!-- <li><a href="/Pages/Dashboard.html">Dashboard</a></li> -->
+                <!-- <li><a href="/Pages/pref.html">Goals</a></li> -->
+            </ul>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer-links">
+            <h3>Resources</h3>
+            <ul>
+                <li><a href="/static/Login.html">Notes</a></li>
+                <li><a href="/static/Login.html">Mock Tests</a></li>
+                <li><a href="#">Assessments</a></li>
+                <li><a href="#">Help Center</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-cta">
+            <h3>Get Started</h3>
+            <p>Join thousands of students learning smarter every day.</p>
+            <a href="/static/Register.html" class="footer-btn">Create Account</a>
+        </div>
+
+    </div>
+    <div class="footer-bottom">
+        <p>© 2025 EduSync. All rights reserved.</p>
+    </div>
+</footer>
+
 
 </body>
 

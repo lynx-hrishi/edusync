@@ -16,7 +16,7 @@ loginBtn.addEventListener("click",async (e) => {
         const payload = { email, password };
         loginData.append("payload", JSON.stringify(payload));
 
-        const response = await fetch(`${BACKENDURL}/api/auth/login`, {
+        const response = await fetch(`/api/auth/login`, {
             method: "POST",
             body: loginData
         });

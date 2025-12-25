@@ -15,27 +15,23 @@ async def get_learning_path(request: Request):
         
         conn, cursor = connection_result
         user_id = request.session.get("user_id")
-        print(user_id)
-
+        
         # Get user preference
         cursor.execute("SELECT experience FROM user_preference WHERE user_id = %s", (user_id,))
-        user_preference = cursor.fetchone()
-        experience = user_preference[0] if user_preference else None
-        print(experience)
-
+        pref_result = cursor.fetchone()
+        experience = pref_result[0] if pref_result else None
+        
         # Get total correct attempts
-        cursor.execute("SELECT correct_attempts FROM progress WHERE user_id = %s", (user_id,))
-        total_correct = cursor.fetchone()
-        correct_attempts = total_correct[0] if total_correct[0] else 0
-        print(correct_attempts)
-
+        cursor.execute("SELECT COALESCE(SUM(correct_attempts), 0) FROM progress WHERE user_id = %s", (user_id,))
+        correct_result = cursor.fetchone()
+        correct_attempts = int(correct_result[0]) if correct_result else 0
+        
         # Get completed chapters count
         cursor.execute("SELECT COUNT(*) FROM progress WHERE user_id = %s AND isCompleted = 1", (user_id,))
-        completed_count = cursor.fetchone()
-        completed_chapters = completed_count[0] if completed_count else 0
-        print(completed_chapters)
-
-        # Get latest chapter name (highest chapter_id with progress)
+        completed_result = cursor.fetchone()
+        completed_chapters = int(completed_result[0]) if completed_result else 0
+        
+        # Get latest chapter name
         cursor.execute("""
             SELECT c.chapter_name 
             FROM chapters c 
@@ -44,14 +40,13 @@ async def get_learning_path(request: Request):
             ORDER BY c.chapter_id DESC 
             LIMIT 1
         """, (user_id,))
-        latest_chapter = cursor.fetchone()
-        latest_chapter_name = latest_chapter[0] if latest_chapter else None
-        print(latest_chapter_name)
-
+        latest_result = cursor.fetchone()
+        latest_chapter_name = latest_result[0] if latest_result else None
+            
         closeConnection(conn, cursor)
         
         return successResponse(data={
-            "user_preference": experience,
+            "experience": experience,
             "correct_attempts": correct_attempts,
             "completed_chapters": completed_chapters,
             "latest_chapter_name": latest_chapter_name

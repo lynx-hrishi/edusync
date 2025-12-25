@@ -26,7 +26,8 @@ async def loginUser(request: Request, payload: str = Form(...)):
             # Add session data
             data = json.loads(payload)
             request.session["user_email"] = data.get("email")
-            request.session["user_id"] = user
+            request.session["user_id"] = user[0]
+            request.session["username"] = user[1]
             return successResponse(message="User logged in successfully", data={"redirect_url": "/dashboard"})
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

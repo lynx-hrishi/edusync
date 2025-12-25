@@ -9,90 +9,150 @@
 
 <body>
 
-
     <div class="dashboard">
 
         <!-- Sidebar -->
         <aside class="sidebar">
-            <h2>DSA Path</h2>
+            <h2><a href="/">EduSync</a></h2>
             <ul>
                 <li><a href="/dashboard">Dashboard</a></li>
                 <li class="active">Roadmap</li>
-                <li>Practice</li>
+                <!-- <li>Practice</li>
                 <li>Mock Tests</li>
-                <li>Notes</li>
+                <li>Notes</li> -->
                 <li><a href="/profile">Profile</a></li>
             </ul>
         </aside>
 
+        <!-- Main -->
         <main class="main">
+
             <div class="topbar">
                 <h3>DSA Learning Roadmap 🛣️</h3>
                 <span class="streak">Beginner → Advanced</span>
             </div>
 
             <!-- Roadmap -->
-            <section class="roadmap">
+            <section class="roadmap" id="roadmap">
 
-                <div class="roadmap-card completed">
+                <div class="roadmap-card completed" onclick="openChapter('basics')">
                     <h4>1. Basics & Complexity</h4>
-                    <p>Time & Space Complexity, Big-O, Basics</p>
-                    <span>✅ Completed</span>
+                    <p>Time & Space Complexity, Big-O</p>
+                    <span>🚀 Completed</span>
                 </div>
 
-                <div class="roadmap-card active">
+                <div class="roadmap-card active" onclick="openChapter('arrays')">
                     <h4>2. Arrays</h4>
-                    <p>Prefix Sum, Sliding Window, Kadane</p>
-                    <span>🚀 In Progress</span>
+                    <p>Prefix Sum, Sliding Window</p>
+                    <span>🔒 In Progress</span>
                 </div>
 
-                <div class="roadmap-card">
+                <div class="roadmap-card" onclick="openChapter('strings')">
                     <h4>3. Strings</h4>
                     <p>Two Pointers, Pattern Matching</p>
                     <span>🔒 Locked</span>
                 </div>
 
-                <div class="roadmap-card">
-                    <h4>4. Recursion & Backtracking</h4>
-                    <p>Subsets, Permutations, N-Queen</p>
+                <div class="roadmap-card" onclick="openChapter('strings')">
+                    <h4>4. Recursion and backtracking</h4>
+                    <p>Subsets, premutation</p>
                     <span>🔒 Locked</span>
                 </div>
 
-                <div class="roadmap-card">
+                <div class="roadmap-card" onclick="openChapter('strings')">
                     <h4>5. Linked List</h4>
-                    <p>Singly, Doubly, Cycle Detection</p>
+                    <p>Singly, Doubly</p>
                     <span>🔒 Locked</span>
                 </div>
 
-                <div class="roadmap-card">
+                <div class="roadmap-card" onclick="openChapter('strings')">
                     <h4>6. Stack & Queue</h4>
-                    <p>Monotonic Stack, Queue Applications</p>
+                    <p>Monotonic Stack</p>
                     <span>🔒 Locked</span>
                 </div>
 
-                <div class="roadmap-card">
+                <div class="roadmap-card" onclick="openChapter('strings')">
                     <h4>7. Trees</h4>
-                    <p>Binary Tree, BST, Traversals</p>
+                    <p>Binary Trees, BSTtree</p>
                     <span>🔒 Locked</span>
                 </div>
 
-                <div class="roadmap-card">
+                <div class="roadmap-card" onclick="openChapter('strings')">
                     <h4>8. Graphs</h4>
-                    <p>BFS, DFS, Shortest Path</p>
+                    <p>BFS, DFS</p>
                     <span>🔒 Locked</span>
                 </div>
 
-                <div class="roadmap-card">
+                <div class="roadmap-card" onclick="openChapter('strings')">
                     <h4>9. Dynamic Programming</h4>
-                    <p>Knapsack, LIS, DP on Trees</p>
+                    <p>Knapsack, LIS</p>
                     <span>🔒 Locked</span>
                 </div>
 
             </section>
 
+            <!-- Chapter Page -->
+            <section class="chapter-detail" id="chapterDetail">
+
+                <button class="back-btn" onclick="goBack()">← Back to Roadmap</button>
+
+                <h2 id="chapterTitle"></h2>
+                <p id="chapterDescription"></p>
+
+                <div class="chapter-layout">
+
+                    <div class="subtopics" id="subtopics"></div>
+
+                    <div class="topic-content" id="contentArea">
+                        <h3 id="topicTitle">Select a topic</h3>
+                        <p id="topicText">Click a subtopic to view its content.</p>
+                        <button id="testbtn" onclick="loadQuiz()">Test Concept</button>
+                    </div>
+
+
+                </div>
+            </section>
+
+            <!-- Quiz Modal -->
+            <div class="quiz-modal" id="quizModal">
+                <div class="quiz-box">
+                    <h3>Quick Quiz 🧠</h3>
+
+                    <p id="quizQuestion">What is the time complexity of binary search?</p>
+
+                    <form id="quizForm">
+                        <label>
+                            <input type="radio" name="option" value="O(n)"> O(n)
+                        </label>
+
+                        <label>
+                            <input type="radio" name="option" value="O(log n)"> O(log n)
+                        </label>
+
+                        <label>
+                            <input type="radio" name="option" value="O(n log n)"> O(n log n)
+                        </label>
+
+                        <label>
+                            <input type="radio" name="option" value="O(1)"> O(1)
+                        </label>
+
+                        <button type="button" onclick="submitQuiz()">Submit</button>
+                    </form>
+
+                    <p id="quizResult"></p>
+
+                    <button class="close-btn" onclick="closeQuiz()">Close</button>
+                </div>
+            </div>
+
+
         </main>
+
     </div>
 
+
+    <script src="/static/Roadmap.js"></script>
 </body>
 
 </html>

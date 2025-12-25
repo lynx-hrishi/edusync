@@ -1,0 +1,111 @@
+* {
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  margin: 0;
+  height: 100vh;
+  background: linear-gradient(135deg, #1e0a3c, #2a0f55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+
+.container {
+  width: 90%;
+  max-width: 520px;
+  background: rgba(255, 255, 255, 0.12);
+  padding: 30px 35px;
+  border-radius: 18px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 26px;
+}
+
+.section {
+  margin-bottom: 25px;
+}
+
+.section h2 {
+  font-size: 20px;
+  margin-bottom: 12px;
+}
+
+label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 10px 0;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+input[type="radio"] {
+  accent-color: #00ffcc;
+  transform: scale(1.2);
+}
+
+.btn {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 30px;
+  background: linear-gradient(135deg, #00ffcc, #00bfa6);
+  color: #003b36;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 255, 204, 0.4);
+}
+
+
+
+
+
+/* ---------- Mobile (≤480px) ---------- */
+@media (max-width: 768px) {
+
+  body {
+    padding: 20px;
+  }
+
+  .container {
+    padding: 26px 24px;
+    border-radius: 16px;
+  }
+
+  h1 {
+    font-size: 26px;   /* bigger heading */
+  }
+
+  .section h2 {
+    font-size: 20px;   /* bigger section title */
+  }
+
+  label {
+    font-size: 17px;   /* bigger option text */
+    gap: 14px;
+  }
+
+  input[type="radio"] {
+    transform: scale(1.4); /* bigger radio buttons */
+  }
+
+  .btn {
+    font-size: 18px;   /* bigger button text */
+    padding: 16px;
+    border-radius: 32px;
+  }
+}

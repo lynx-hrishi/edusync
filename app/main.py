@@ -26,7 +26,13 @@ app.mount("/static", StaticFiles(directory="app/static"), name="static")
 templates = Jinja2Templates(directory="app/Template")
 
 # Add session middleware
-app.add_middleware(SessionMiddleware, secret_key="your-secret-key-here", max_age=60 * 60 * 24)
+app.add_middleware(
+    SessionMiddleware, 
+    secret_key="your-secret-key-here", 
+    max_age=60 * 60 * 24,
+    same_site="lax",
+    https_only=False
+)
 
 globalErrorHandler(app)
 
@@ -35,8 +41,8 @@ app.include_router(learning_router, prefix="/api", tags=["Learning"])
 app.include_router(user_router, prefix="/api", tags=["User"])
  
 @app.get("/")
-async def root():
-    return {"message": "EduSync API is running"}
+async def root(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
 
 @app.get("/dashboard")
 async def get_dashboard(request: Request):
