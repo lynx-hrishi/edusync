@@ -1,6 +1,9 @@
-from fastapi import APIRouter, HTTPException, Form
+from fastapi import APIRouter, HTTPException, Form, Request
+from fastapi.responses import JSONResponse
 from app.models import LoginRequest, RegisterRequest
 from app.services.registerService import registerUserService
+from app.services.loginUserService import loginUserService
+import json
 
 router = APIRouter()
 
@@ -8,6 +11,21 @@ async def registerUser(payload: str = Form(...)):
     try:
         user = registerUserService(payload)
         if user:
-            return {"message": "User registered successfully"}
+            return JSONResponse(
+                content={"message": "User registered successfully"},
+                status_code=201
+            )
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+async def loginUser(request: Request, payload: str = Form(...)):
+    try:
+        user = loginUserService(payload)
+        if user:
+            # Add session data
+            data = json.loads(payload)
+            request.session["user_email"] = data.get("email")
+            request.session["is_authenticated"] = True
+            return {"message": "User Logged in successfully"}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

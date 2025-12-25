@@ -1,12 +1,22 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Request
 from app.models import LoginRequest, RegisterRequest, User
-from app.controllers.login_controller import registerUser
+from app.controllers.login_controller import registerUser, loginUser
+
 router = APIRouter()
 
-# Mock database
-users_db = []
-user_id_counter = 1
-
-# router.post("/login")
-
+router.post("/login")(loginUser)
 router.post("/register")(registerUser)
+
+@router.post("/logout")
+async def logout(request: Request):
+    request.session.clear()
+    return {"message": "Logged out successfully"}
+
+@router.get("/session")
+async def check_session(request: Request):
+    if request.session.get("is_authenticated"):
+        return {
+            "authenticated": True,
+            "user_email": request.session.get("user_email")
+        }
+    return {"authenticated": False}

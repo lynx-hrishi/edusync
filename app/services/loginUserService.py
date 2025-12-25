@@ -1,31 +1,30 @@
 from app.config.dbConnect import makeConnection, commitValues, closeConnection
 from app.models import RegisterRequest
+from fastapi import Request
 import json
 
-def registerUserService(payload):
+def loginUserService(request: Request, payload):
     data = json.loads(payload)
-    name = data.get('name')
-    age = data.get('age')
     email = data.get('email')
     password = data.get('password')
-    # print(name, age, email, password)
 
     connection_result = makeConnection()
     if connection_result is None:
         raise Exception("Database connection failed")
     
     conn, cursor = connection_result
-    
+
     try:
-        cursor.execute("SELECT * FROM users WHERE email = %s", (email,))
-        if cursor.fetchone():
-            raise Exception("User already exists")
-        
-        cursor.execute("INSERT INTO users (username, age, email, password) VALUES (%s, %s, %s, %s)", 
-                      (name, age, email, password))
-        commitValues(conn)
+        cursor.execute("SELECT password FROM users WHERE email = %s", (email,))
+        user = cursor.fetchone()
+        if user is None:
+            raise Exception("User not found")
+        if user[0] != password:
+            raise Exception("Incorrect password")
+        request.session["email"] = email
+        request.session['user_id'] = user[0]
         return True
     except Exception as e:
-        raise e
+        raise e 
     finally:
         closeConnection(conn)
