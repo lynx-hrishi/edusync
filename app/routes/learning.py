@@ -46,13 +46,6 @@ async def saveUserPreference(request: Request, payload: str = Form(...)):
             )
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-
-@router.get("/learning-path")
-async def get_learning_path(request: Request):
-    try:
-        return templates.TemplateResponse("Dashboard.html", {"request": request})
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
     
 
 @router.get("/chapters")

@@ -9,7 +9,7 @@ def registerUserService(payload):
     age = data.get('age')
     email = data.get('email')
     password = data.get('password')
-    # print(name, age, email, password)
+    print(name, age, email, password)
 
     connection_result = makeConnection()
     if connection_result is None:
@@ -20,16 +20,22 @@ def registerUserService(payload):
     try:
         cursor.execute("SELECT * FROM users WHERE email = %s", (email,))
         if cursor.fetchone():
-            raise Exception("User already exists")
+            print("User Already Exists")
+            return { "error": "User Already Exists", "status": 400 }
         
         cursor.execute("INSERT INTO users (username, age, email, password) VALUES (%s, %s, %s, %s)", 
                       (name, age, email, password))
+        
+        user_id = cursor.lastrowid
+        print(user_id)
+        cursor.execute("INSERT INTO progress (user_id, chapter_id, total_attempts, correct_attempts, isCompleted) values(%s, %s, %s, %s, %s)", (user_id, 1, 0, 0, 0))
         commitValues(conn)
         return True
     except Exception as e:
+        print(e)
         raise e
     finally:
-        closeConnection(conn)
+        closeConnection(conn, cursor)
 
 def saveUserPreferenceService(request: Request, payload):
     data = json.loads(payload)
@@ -45,11 +51,11 @@ def saveUserPreferenceService(request: Request, payload):
     conn, cursor = connection_result
 
     try:
-        cursor.execute("INSERT INTO user_preference (preference_id, goals, preference, experience) VALUES (%s, %s, %s, %s)",
+        cursor.execute("INSERT INTO user_preference (user_id, goals, preference, experience) VALUES (%s, %s, %s, %s)",
                       (request.session.get('user_id'), goals, preferences, experience))
         commitValues(conn)
         return True
     except Exception as e:
         raise e
     finally:
-        closeConnection(conn)
+        closeConnection(conn, cursor)

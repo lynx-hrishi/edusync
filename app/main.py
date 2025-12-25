@@ -1,12 +1,23 @@
 from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware.sessions import SessionMiddleware
 from app.routes.auth import router as auth_router
 from app.routes.learning import router as learning_router
+from app.routes.userRoutes import router as user_router
 from app.utils.globalErrorHandler import globalErrorHandler
 
 app = FastAPI()
+
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Mount static files
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
@@ -21,6 +32,7 @@ globalErrorHandler(app)
 
 app.include_router(auth_router, prefix="/api/auth", tags=["Authentication"])
 app.include_router(learning_router, prefix="/api", tags=["Learning"])
+app.include_router(user_router, prefix="/api", tags=["User"])
  
 @app.get("/")
 async def root():

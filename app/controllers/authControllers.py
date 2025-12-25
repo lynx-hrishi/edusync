@@ -9,7 +9,12 @@ router = APIRouter()
 async def registerUser(payload: str = Form(...)):
     try:
         user = registerUserService(payload)
-        if user:
+        if "error" in user:
+            return JSONResponse(
+                content={"message": user["error"]},
+                status_code= user["status"]
+            )
+        elif user:
             return JSONResponse(
                 content={"message": "User registered successfully"},
                 status_code=201
@@ -20,7 +25,12 @@ async def registerUser(payload: str = Form(...)):
 async def loginUser(request: Request, payload: str = Form(...)):
     try:
         user = loginUserService(payload)
-        if user:
+        if "error" in user:
+            return JSONResponse(
+                content={"message": user["error"]},
+                status_code= user["status"]
+            )
+        elif user: 
             # Add session data
             data = json.loads(payload)
             request.session["user_email"] = data.get("email")

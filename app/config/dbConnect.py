@@ -28,5 +28,7 @@ def makeConnection():
 def commitValues(conn):
     conn.commit()
 
-def closeConnection(conn):
+def closeConnection(conn, cursor=None):
+    if cursor:
+        cursor.close()
     conn.close()
