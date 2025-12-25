@@ -94,6 +94,33 @@ async def test_concept(request: Request, chapter_id: int, concept_id: int):
         cursor.execute("SELECT * FROM concepts WHERE chapter_id = %s and concept_id = %s", (chapter_id, concept_id))
         concept_details = cursor.fetchone()
 
+        # Check if questions already exist for this user, chapter, and concept
+        cursor.execute("SELECT COUNT(*) FROM user_questions WHERE user_id = %s AND chapter_id = %s AND concept_id = %s", 
+                      (request.session.get("user_id"), chapter_id, concept_id))
+        existing_questions_count = cursor.fetchone()[0]
+        
+        if existing_questions_count > 0:
+            # Return existing questions
+            cursor.execute(
+                "SELECT uq.question_id, uq.question FROM user_questions uq WHERE uq.user_id = %s AND uq.chapter_id = %s AND uq.concept_id = %s",
+                (request.session.get("user_id"), chapter_id, concept_id)
+            )
+            existing_questions = cursor.fetchall()
+            
+            saved_questions = []
+            for question in existing_questions:
+                cursor.execute("SELECT options FROM question_options WHERE question_id = %s", (question[0],))
+                options = [opt[0] for opt in cursor.fetchall()]
+                
+                saved_questions.append({
+                    "question_id": question[0],
+                    "question": question[1],
+                    "options": options
+                })
+            
+            closeConnection(conn, cursor)
+            return successResponse(data={"questions": saved_questions})
+
         cursor.execute("SELECT preference, experience FROM user_preference where user_id = %s", (request.session.get("user_id"), ))
         user_data = cursor.fetchone()
         user_preference = user_data[0]
