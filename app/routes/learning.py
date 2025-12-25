@@ -237,10 +237,10 @@ async def check_answer(request: Request, payload: str = Form(...)):
         connection_result = makeConnection()
         conn, cursor = connection_result
         
-        # Update concept progress
+        # Simple increment approach
         cursor.execute(
-            "INSERT INTO concept_progress (user_id, chapter_id, concept_id, total_attempts, correct_attempts) VALUES (%s, %s, %s, 1, %s) ON DUPLICATE KEY UPDATE total_attempts = total_attempts + 1, correct_attempts = correct_attempts + %s",
-            (user_id, chapter_id, concept_id, 1 if is_correct else 0, 1 if is_correct else 0)
+            "INSERT INTO concept_progress (user_id, chapter_id, concept_id, total_attempts, correct_attempts) VALUES (%s, %s, %s, 1, %s)",
+            (user_id, chapter_id, concept_id, 1 if is_correct else 0)
         )
         
         # Update chapter progress
@@ -268,19 +268,77 @@ async def check_answer(request: Request, payload: str = Form(...)):
         if conn and cursor:
             closeConnection(conn, cursor)
 
-# @router.get("/check-mastery/{chapter_id}")
-# async def check_mastery(chapter_id: int):
-#     chapter = next((c for c in chapters_db if c["id"] == chapter_id), None)
-#     if not chapter:
-#         raise HTTPException(status_code=404, detail="Chapter not found")
-    
-#     return {
-#         "chapter_id": chapter_id,
-#         "mastery_level": 75.0,
-#         "completed_concepts": 3,
-#         "total_concepts": 5,
-#         "status": "Good Progress"
-#     }
+@router.get("/check-mastery/{chapter_id}")
+async def check_mastery(request: Request, chapter_id: int):
+    try:
+        connection_result = makeConnection()
+        if connection_result is None:
+            raise Exception("Database connection failed")
+        
+        conn, cursor = connection_result
+        user_id = request.session.get("user_id")
+        
+        # Get all concepts with their progress in a single query
+        cursor.execute("""
+            SELECT c.concept_id, c.concept_name, 
+                   COALESCE(SUM(cp.total_attempts), 0) as total_attempts,
+                   COALESCE(SUM(cp.correct_attempts), 0) as correct_attempts
+            FROM concepts c
+            LEFT JOIN concept_progress cp ON c.concept_id = cp.concept_id 
+                AND c.chapter_id = cp.chapter_id AND cp.user_id = %s
+            WHERE c.chapter_id = %s
+            GROUP BY c.concept_id, c.concept_name
+        """, (user_id, chapter_id))
+        
+        results = cursor.fetchall()
+        
+        concept_mastery = []
+        total_concepts = len(results)
+        mastered_count = 0
+        
+        for result in results:
+            concept_id, concept_name, total_attempts, correct_attempts = result
+            
+            # Convert Decimal to int
+            total_attempts = int(total_attempts)
+            correct_attempts = int(correct_attempts)
+            
+            if total_attempts > 0:
+                mastery_score = correct_attempts / total_attempts
+                
+                if mastery_score >= 0.8:
+                    status = "mastered"
+                    mastered_count += 1
+                elif mastery_score < 0.5:
+                    status = "struggling"
+                else:
+                    status = "learning"
+            else:
+                mastery_score = 0
+                status = "not_started"
+            
+            concept_mastery.append({
+                "concept_id": int(concept_id),
+                "concept_name": concept_name,
+                "mastery_score": round(float(mastery_score), 2),
+                "status": status
+            })
+        
+        # Calculate overall chapter mastery
+        overall_mastery = (mastered_count / total_concepts * 100) if total_concepts > 0 else 0
+        
+        closeConnection(conn, cursor)
+        
+        return successResponse(data={
+            "chapter_id": chapter_id,
+            "overall_mastery": round(overall_mastery, 1),
+            "mastered_concepts": mastered_count,
+            "total_concepts": total_concepts,
+            "concepts": concept_mastery
+        })
+        
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 # @router.get("/ask-hint/{question_id}")
 # async def ask_hint(question_id: int):
