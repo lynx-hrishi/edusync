@@ -1,4 +1,5 @@
 from fastapi import APIRouter, HTTPException, Request, Form
+from fastapi.responses import JSONResponse
 from app.models import SavePreferenceRequest, CheckAnswerRequest, Chapter, Concept, Question, LearningPath
 from typing import List
 from app.controllers.authControllers import saveUserPreferenceService
@@ -37,17 +38,20 @@ async def saveUserPreference(request: Request, payload: str = Form(...)):
     try:
         user = saveUserPreferenceService(request, payload)
         if user:
-            return {"message": "User preference saved successfully"}
+            return JSONResponse(
+                content={"message": "User preference saved successfully"},
+                status_code=201
+            )
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
 @router.get("/learning-path")
-async def get_learning_path():
-    return {
-        "user_id": 1,
-        "chapters": chapters_db,
-        "progress": 25.5
-    }
+async def get_learning_path(request: Request):
+    try:
+        pass
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    
 
 @router.get("/chapters")
 async def get_chapters():
