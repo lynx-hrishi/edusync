@@ -19,8 +19,8 @@
                 <label>Username</label>
                 <input type="text" placeholder="username" id="username" required />
                 
-                <label>Mobile</label>
-                <input type="number" placeholder="+91" id="mobile" required />
+                <label>Age</label>
+                <input type="number" placeholder="Age" id="age" required />
 
                 <label>Email</label>
                 <input type="email" placeholder="username@gmail.com" id="email" required />
@@ -33,16 +33,17 @@
 
                 <a href="#" class="forgot">Forgot Password?</a>
 
-                <button type="submit">Register</button>
+                <button type="submit" id="register-btn">Register</button>
             </form>
 
             <p class="register">
                 Already have an account? <a href="/login">Login</a>
             </p>
+            <span id="error-msg-reg"></span>
         </div>
     </div>
 
-    <script src="/app/static/Register.js"></script>
+    <script src="/static/Register.js"></script>
 </body>
 
 </html>

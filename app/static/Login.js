@@ -4,7 +4,7 @@ loginBtn.addEventListener("click",async (e) => {
     e.preventDefault();
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
-    const errorMsg = document.getElementById("errorMsg");
+    // const errorMsg = document.getElementById("errsg");
 
     errorMsg.textContent = "";
 
@@ -24,7 +24,7 @@ loginBtn.addEventListener("click",async (e) => {
         const data = await response.json();
 
         if (!response.ok) {
-            errorMsg.textContent = data.error || "Login failed";
+            errorMsg.textContent = data.message || "Login failed";
             return;
         }
 
