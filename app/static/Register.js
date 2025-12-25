@@ -1,31 +1,38 @@
-async function handleRegister() {
-    const name = document.getElementById('username');
-    const email = document.getElementById('email');
-    const number = document.getElementById('mobile');
-    const password = document.getElementById('password');
-    const error = document.getElementById('error');
+const registerbtn = document.getElementById("register-btn");
+const error = document.getElementById("error-msg-reg");
+
+registerbtn.addEventListener("click", async (e) => {
+    e.preventDefault()
+
+    const name = document.getElementById('username').value;
+    const email = document.getElementById('email').value;
+    const age = document.getElementById('age').value;
+    const password = document.getElementById('password').value;
+    // const error = document.getElementById('error')/;
 
     error.textContent = "";
 
     let BACKENDURL = "https://fluffy-heidi-monoprotic.ngrok-free.dev";
 
     try {
+        const registerData = new FormData();
+
+        const payload = { name, age, email, password };
+        registerData.append("payload", JSON.stringify(payload));
+
         const response = await fetch(`${BACKENDURL}/api/auth/register`, {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ name, email, number, password })
+            body: registerData
         });
 
         const data = await response.json();
 
         if (!response.ok) {
-            error.textContent = data.error || "Register failed";
+            error.textContent = data.message || "Register failed";
             return;
         }
 
     } catch (err) {
         error.textContent = "Server error"
     }
-}
+})
