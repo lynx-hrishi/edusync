@@ -9,14 +9,14 @@ class GeminiService:
         genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
         self.model = genai.GenerativeModel('gemini-pro')
         
-    def generate_response(self, user_message: str, system_prompt: str = None):
+    def generate_response(self, system_prompt: str, user_message: str = None):
         try:
-            if system_prompt:
-                full_prompt = f"{system_prompt}\n\nUser: {user_message}"
-            else:
-                full_prompt = user_message
+            # if system_prompt:
+            #     full_prompt = f"{system_prompt}\n\nUser: {user_message}"
+            # else:
+            #     full_prompt = user_message
                 
-            response = self.model.generate_content(full_prompt)
+            response = self.model.generate_content(system_prompt)
             return response.text
         except Exception as e:
             raise Exception(f"Gemini API error: {str(e)}")

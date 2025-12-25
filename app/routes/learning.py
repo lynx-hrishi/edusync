@@ -6,6 +6,7 @@ from typing import List
 from app.controllers.authControllers import saveUserPreferenceService
 from app.config.dbConnect import makeConnection, closeConnection, commitValues
 from app.utils.responseUtils import successResponse, errorResponse
+from app.services.geminiService import get_gemini_service
 
 router = APIRouter()
 templates = Jinja2Templates(directory="app/Template")
@@ -34,14 +35,21 @@ async def get_chapters():
 
         chapters_data = []
         for i in chapters:
-            cursor.execute("SELECT * FROM concepts where chapter_id = %s", (i[0],))
+            cursor.execute("SELECT concept_id, concept_name FROM concepts where chapter_id = %s", (i[0],))
             concepts = cursor.fetchall()
-            chapters_data.append({
+            print(concepts)
+            data = {
                 "id": i[0],
                 "title": i[1],
                 "description": i[2],
-                "concepts": concepts
-            })
+                "concepts": []
+            }
+            for i in concepts:
+                data["concepts"].append({
+                    "concept_id": i[0],
+                    "concept_name": i[1]
+                })
+            chapters_data.append(data)
         
         closeConnection(conn, cursor)
         return successResponse(data={"chapters": chapters_data})
@@ -49,26 +57,77 @@ async def get_chapters():
         raise HTTPException(status_code=500, detail=str(e))
     
 
-# @router.get("/concepts/{chapter_id}")
-# async def get_concepts(chapter_id: int):
-#     concepts = [c for c in concepts_db if c["chapter_id"] == chapter_id]
-#     if not concepts:
-#         raise HTTPException(status_code=404, detail="No concepts found for this chapter")
-#     return {"concepts": concepts}
+@router.get("/concepts/{chapter_id}/{concept_id}")
+async def get_concepts(chapter_id: int, concept_id: int):
+    try:
+        connection_result = makeConnection()
+        if connection_result is None:
+            raise Exception("Database connection failed")
+        
+        conn, cursor = connection_result
 
-# @router.get("/concept/{concept_id}")
-# async def get_concept(concept_id: int):
-#     concept = next((c for c in concepts_db if c["id"] == concept_id), None)
-#     if not concept:
-#         raise HTTPException(status_code=404, detail="Concept not found")
-#     return {"concept": concept}
+        cursor.execute("SELECT * FROM concepts WHERE chapter_id = %s and concept_id = %s", (chapter_id, concept_id))
+        concept_details = cursor.fetchone()
+        # print(concept_details)
+        concept = {
+            "concept_id": concept_details[0],
+            "chapter_id": concept_details[1],
+            "concept_name": concept_details[2],
+            "concept_desc": concept_details[3]
+        }
+        # print(concept)
+        closeConnection(conn, cursor)
+        return successResponse(data={"concept": concept})
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    
 
-# @router.get("/test-concept/{concept_id}")
-# async def test_concept(concept_id: int):
-#     questions = [q for q in questions_db if q["concept_id"] == concept_id]
-#     if not questions:
-#         raise HTTPException(status_code=404, detail="No questions found for this concept")
-#     return {"questions": questions}
+@router.get("/test-concept/{chapter_id}/{concept_id}")
+async def test_concept(request: Request, chapter_id: int, concept_id: int):
+    try:
+        connection_result = makeConnection()
+        if connection_result is None:
+            raise Exception("Database connection failed")
+        
+        conn, cursor = connection_result
+
+        cursor.execute("SELECT * FROM concepts WHERE chapter_id = %s and concept_id = %s", (chapter_id, concept_id))
+        concept_details = cursor.fetchone()
+
+        cursor.execute("SELECT preference, experience FROM user_preference where user_id = %s", (request.session.get("user_id"), ))
+        user_preference = cursor.fetchone()[0]
+        user_experience = cursor.fetchone()[1]
+
+        print(concept_details, user_experience, user_preference)
+
+        prompt_preference = {
+            "Prefer more concise explanation": "Be more detailed when explaining the concepts",
+            "Prefer more example savvy": "Be more detailed when explaining the concepts",
+            "Prefer more pracice questions": "User needs more questions to solve"
+        }
+
+        print(concept_details, user_experience, user_preference, prompt_preference[user_preference])
+
+        prompt = f"""
+        You are a tutor for data structures.
+        Topic: {concept_details[2]}
+        Difficulty: {user_experience}
+        Student Preference: {prompt_preference[user_preference]}
+        Generate {"5" if user_preference == "Prefer more pracice questions" else "3"} MCQ with 4 options and specify the correct option index and a short explanation.
+
+        Instructions:
+        - Your job is to return a JSON response with a structure as of question, options as an array, correct_option and an explaination.
+        - Based on the user experience, ask questions which can help grow the student.
+        """
+
+        gemini = get_gemini_service()
+        res = gemini.generate_response(system_prompt=prompt)
+        print(res)
+        return successResponse(data={"questions": res})
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    
 
 # @router.post("/check-answer")
 # async def check_answer(request: CheckAnswerRequest):
