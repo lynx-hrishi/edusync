@@ -1,6 +1,7 @@
 from fastapi import APIRouter, HTTPException, Request
 from app.models import LoginRequest, RegisterRequest, User
 from app.controllers.authControllers import registerUser, loginUser
+from app.utils.responseUtils import successResponse, errorResponse
 
 router = APIRouter()
 
@@ -10,4 +11,4 @@ router.post("/register")(registerUser)
 @router.post("/logout")
 async def logout(request: Request):
     request.session.clear()
-    return {"message": "Logged out successfully"}
+    return successResponse(message="Logged out successfully")

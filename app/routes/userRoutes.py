@@ -2,6 +2,7 @@ from fastapi import APIRouter, HTTPException, Request
 from app.models import LoginRequest, RegisterRequest, User
 from app.config.dbConnect import makeConnection, commitValues, closeConnection
 from app.controllers.authControllers import registerUser, loginUser
+from app.utils.responseUtils import successResponse, errorResponse
 
 router = APIRouter()
 
@@ -49,12 +50,12 @@ async def get_learning_path(request: Request):
 
         closeConnection(conn, cursor)
         
-        return {
+        return successResponse(data={
             "user_preference": experience,
             "correct_attempts": correct_attempts,
             "completed_chapters": completed_chapters,
             "latest_chapter_name": latest_chapter_name
-        }
+        })
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
