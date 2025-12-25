@@ -1,0 +1,59 @@
+create database edusync;
+use edusync;
+
+create table users (
+    user_id int primary key auto_increment,
+    username varchar(255),
+    age int,
+    email varchar(255),
+    password varchar(255)
+);
+
+
+create table user_preference (
+    preference_id int primary key auto_increment,
+    goals varchar(255),
+    preference varchar(255),
+    experience varchar(255)
+);
+
+create table chapters (
+    chapter_id int primary key auto_increment,
+    chapter_name varchar(255),
+    chapter_desc varchar(255)
+);
+
+
+
+create table prereq_chapters (
+    prereq_id int primary key auto_increment,
+    chapter_id int,
+    prereq_chapter_id int,
+    foreign key (chapter_id) references chapters(chapter_id),
+    foreign key (prereq_chapter_id) references chapters(chapter_id)
+);
+
+
+create table progress (
+    progress_id int primary key auto_increment,
+    user_id int,
+    chapter_id int,
+    total_attempts int,
+    correct_attempts int,
+    isCompleted INT default 0 not null check (isCompleted in (0,1)),
+    foreign key (user_id) references users(user_id),
+    foreign key (chapter_id) references chapters(chapter_id)
+);
+
+create table concepts(
+    concept_id int primary key auto_increment,
+    chapter_id int,
+    concept_name varchar(255),
+    concept_desc varchar(255),
+    foreign key (chapter_id) references chapters(chapter_id)
+);
+
+INSERT INTO users (username, age, email, password)
+VALUES ('abc', 20, 'x@y.com', 'pass');
+
+select * from users;
