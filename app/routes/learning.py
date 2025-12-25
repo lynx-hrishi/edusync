@@ -315,7 +315,7 @@ async def check_mastery(request: Request, chapter_id: int):
                     status = "learning"
             else:
                 mastery_score = 0
-                status = "not_started"
+                status = "not_started" 
             
             concept_mastery.append({
                 "concept_id": int(concept_id),
