@@ -27,6 +27,8 @@ loginBtn.addEventListener("click",async (e) => {
             errorMsg.textContent = data.message || "Login failed";
             return;
         }
+        console.log(data)
+        location.href = data.data.redirect_url;
 
     } catch (err) {
         errorMsg.textContent = "Server error";
