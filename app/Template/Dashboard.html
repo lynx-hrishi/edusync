@@ -28,7 +28,7 @@
 
         <main class="main">
             <div class="topbar">
-                <h3>Hello, Student 👋</h3>
+                <h3>Hello, {{ request.session["user_id"] }} 👋</h3>
                 <div class="streak">🔥 1 Day Streak</div>
             </div>
 
