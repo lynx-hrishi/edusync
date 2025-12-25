@@ -8,7 +8,7 @@ class LoginRequest(BaseModel):
 class RegisterRequest(BaseModel):
     email: str
     password: str
-    phone: str
+    age: str
     name: str
 
 class SavePreferenceRequest(BaseModel):
@@ -21,10 +21,10 @@ class CheckAnswerRequest(BaseModel):
     chosen_option: str
 
 class User(BaseModel):
-    id: int
     email: str
+    age: int
     name: str
-    phone: str
+    password: str
 
 class Chapter(BaseModel):
     id: int

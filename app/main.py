@@ -1,8 +1,11 @@
 from fastapi import FastAPI
 from app.routes.auth import router as auth_router
 from app.routes.learning import router as learning_router
+from app.utils.globalErrorHandler import globalErrorHandler
 
 app = FastAPI()
+
+globalErrorHandler(app)
 
 app.include_router(auth_router, prefix="/api/auth", tags=["Authentication"])
 app.include_router(learning_router, prefix="/api", tags=["Learning"])
