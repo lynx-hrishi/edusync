@@ -75,3 +75,16 @@ INSERT INTO users (username, age, email, password)
 VALUES ('abc', 20, 'x@y.com', 'pass');
 
 select * from users;
+
+create table concept_progress (
+    concept_progress_id int primary key auto_increment,
+    user_id int,
+    chapter_id int,
+    concept_id int,
+    total_attempts int default 0,
+    correct_attempts int default 0,
+    isCompleted INT default 0 not null check (isCompleted in (0,1)),
+    foreign key (user_id) references users(user_id),
+    foreign key (chapter_id) references chapters(chapter_id),
+    foreign key (concept_id) references concepts(concept_id)
+);

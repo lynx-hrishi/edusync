@@ -7,6 +7,7 @@ from app.controllers.authControllers import saveUserPreferenceService
 from app.config.dbConnect import makeConnection, closeConnection, commitValues
 from app.utils.responseUtils import successResponse, errorResponse
 from app.services.geminiService import get_gemini_service
+import json
 
 router = APIRouter()
 templates = Jinja2Templates(directory="app/Template")
@@ -159,15 +160,16 @@ async def test_concept(request: Request, chapter_id: int, concept_id: int):
         gemini = get_gemini_service()
         res = gemini.generate_response(system_prompt=prompt)
         print(res)
-
-        import json
-        questions_data = json.loads(res)
+        
+        # Parse JSON response if it's a string
+        if isinstance(res, str):
+            res = json.loads(res)
         
         saved_questions = []
         for question_data in res: 
             cursor.execute(
-                "INSERT INTO user_questions (user_id, chapter_id, concept_id, question) VALUES (%s, %s, %s, %s)",
-                (request.session.get("user_id"), chapter_id, concept_id, question_data["question"])
+                "INSERT INTO user_questions (user_id, chapter_id, concept_id, question, explanation) VALUES (%s, %s, %s, %s, %s)",
+                (request.session.get("user_id"), chapter_id, concept_id, question_data["question"], question_data["explanation"])
             )
             question_id = cursor.lastrowid
             
@@ -193,18 +195,78 @@ async def test_concept(request: Request, chapter_id: int, concept_id: int):
         raise HTTPException(status_code=500, detail=str(e))
     
 
-# @router.post("/check-answer")
-# async def check_answer(request: CheckAnswerRequest):
-#     question = next((q for q in questions_db if q["id"] == request.question_id), None)
-#     if not question:
-#         raise HTTPException(status_code=404, detail="Question not found")
-    
-#     is_correct = question["correct_answer"] == request.chosen_option
-#     return {
-#         "correct": is_correct,
-#         "correct_answer": question["correct_answer"],
-#         "explanation": "Well done!" if is_correct else f"The correct answer is: {question['correct_answer']}"
-#     }
+@router.post("/check-answer")
+async def check_answer(request: Request, payload: str = Form(...)):
+    conn = None
+    cursor = None
+    try:
+        print(f"Received payload: {payload}")
+        data = json.loads(payload)
+        question_id = data.get("question_id")
+        chosen_option = data.get("chosen_option")
+        print(f"Question ID: {question_id}, Chosen option: {chosen_option}")
+
+        connection_result = makeConnection()
+        if connection_result is None:
+            raise Exception("Database connection failed")
+        
+        conn, cursor = connection_result
+        
+        user_id = request.session.get("user_id")
+        print(f"User ID: {user_id}")
+        
+        # Get question details
+        cursor.execute("SELECT chapter_id, concept_id, explanation FROM user_questions WHERE question_id = %s and user_id = %s", (question_id, user_id))
+        question_data = cursor.fetchone()
+        if not question_data:
+            raise HTTPException(status_code=404, detail="Question not found")
+        
+        chapter_id, concept_id, explanation = question_data
+        print(f"Chapter ID: {chapter_id}, Concept ID: {concept_id}")
+        
+        # Check if answer is correct
+        cursor.execute("SELECT options FROM question_options WHERE question_id = %s AND isCorrect = 1", (question_id,))
+        correct_answer = cursor.fetchone()
+        is_correct = correct_answer and correct_answer[0] == chosen_option
+        print(f"Is correct: {is_correct}, Correct answer: {correct_answer[0] if correct_answer else None}")
+        
+        # Close current connection before progress updates
+        closeConnection(conn, cursor)
+        
+        # Update progress with fresh connection
+        connection_result = makeConnection()
+        conn, cursor = connection_result
+        
+        # Update concept progress
+        cursor.execute(
+            "INSERT INTO concept_progress (user_id, chapter_id, concept_id, total_attempts, correct_attempts) VALUES (%s, %s, %s, 1, %s) ON DUPLICATE KEY UPDATE total_attempts = total_attempts + 1, correct_attempts = correct_attempts + %s",
+            (user_id, chapter_id, concept_id, 1 if is_correct else 0, 1 if is_correct else 0)
+        )
+        
+        # Update chapter progress
+        cursor.execute(
+            "INSERT INTO progress (user_id, chapter_id, total_attempts, correct_attempts) VALUES (%s, %s, 1, %s) ON DUPLICATE KEY UPDATE total_attempts = total_attempts + 1, correct_attempts = correct_attempts + %s",
+            (user_id, chapter_id, 1 if is_correct else 0, 1 if is_correct else 0)
+        )
+        
+        commitValues(conn)
+        
+        response_data = {
+            "correct": is_correct,
+            "correct_answer": correct_answer[0] if correct_answer else None,
+            "explanation": f"Well done!\nThe Explanation:\n{explanation}" if is_correct else None
+        }
+        print(f"Returning response: {response_data}")
+        return successResponse(data=response_data)
+        
+    except Exception as e:
+        print(f"Error in check_answer: {str(e)}")
+        if conn:
+            conn.rollback()
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        if conn and cursor:
+            closeConnection(conn, cursor)
 
 # @router.get("/check-mastery/{chapter_id}")
 # async def check_mastery(chapter_id: int):
