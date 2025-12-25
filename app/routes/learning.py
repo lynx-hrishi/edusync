@@ -95,10 +95,9 @@ async def test_concept(request: Request, chapter_id: int, concept_id: int):
         concept_details = cursor.fetchone()
 
         cursor.execute("SELECT preference, experience FROM user_preference where user_id = %s", (request.session.get("user_id"), ))
-        user_preference = cursor.fetchone()[0]
-        user_experience = cursor.fetchone()[1]
-
-        print(concept_details, user_experience, user_preference)
+        user_data = cursor.fetchone()
+        user_preference = user_data[0]
+        user_experience = user_data[1]
 
         prompt_preference = {
             "Prefer more concise explanation": "Be more detailed when explaining the concepts",
@@ -107,6 +106,13 @@ async def test_concept(request: Request, chapter_id: int, concept_id: int):
         }
 
         print(concept_details, user_experience, user_preference, prompt_preference[user_preference])
+
+        demo_question = {
+            "question": "What is a linked list?",
+            "options": ["A data structure", "A programming language", "A database system", "None of the above"],
+            "correct_answer": "A data structure",
+            "explanation": "A linked list is a linear data structure in which elements are stored in nodes, each containing a value and a reference to the next node."
+        }
 
         prompt = f"""
         You are a tutor for data structures.
@@ -118,12 +124,18 @@ async def test_concept(request: Request, chapter_id: int, concept_id: int):
         Instructions:
         - Your job is to return a JSON response with a structure as of question, options as an array, correct_option and an explaination.
         - Based on the user experience, ask questions which can help grow the student.
+
+        Example:
+        {demo_question}
         """
 
-        gemini = get_gemini_service()
-        res = gemini.generate_response(system_prompt=prompt)
-        print(res)
-        return successResponse(data={"questions": res})
+        # gemini = get_gemini_service()
+        # res = gemini.generate_response(system_prompt=prompt)
+        # print(res)
+
+
+
+        # return successResponse(data={"questions": res})
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

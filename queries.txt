@@ -53,6 +53,23 @@ create table concepts(
     foreign key (chapter_id) references chapters(chapter_id)
 );
 
+create table user_questions (
+	question_id int primary key auto_increment,
+    user_id int,
+    chapter_id int,
+    concept_id int,
+    question varchar(255),
+    foreign key(user_id) references users(user_id),
+    foreign key(chapter_id) references chapters(chapter_id),
+    foreign key(concept_id) references concepts(concept_id)
+);
+
+create table question_options (
+	question_id int,
+    options varchar(255),
+    foreign key(question_id) references user_questions(question_id)
+);
+
 INSERT INTO users (username, age, email, password)
 VALUES ('abc', 20, 'x@y.com', 'pass');
 

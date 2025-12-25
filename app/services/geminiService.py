@@ -7,7 +7,7 @@ load_dotenv()
 class GeminiService:
     def __init__(self):
         genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
-        self.model = genai.GenerativeModel('gemini-pro')
+        self.model = genai.GenerativeModel('models/gemini-flash-latest')
         
     def generate_response(self, system_prompt: str, user_message: str = None):
         try:
@@ -22,4 +22,8 @@ class GeminiService:
             raise Exception(f"Gemini API error: {str(e)}")
 
 def get_gemini_service():
+    # for model in genai.list_models():
+    #     if "generateContent" in model.supported_generation_methods:
+    #         print(model.name)
+
     return GeminiService()
