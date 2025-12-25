@@ -3,7 +3,7 @@ from app.models import RegisterRequest
 from fastapi import Request
 import json
 
-def loginUserService(request: Request, payload):
+def loginUserService(payload):
     data = json.loads(payload)
     email = data.get('email')
     password = data.get('password')
@@ -15,15 +15,13 @@ def loginUserService(request: Request, payload):
     conn, cursor = connection_result
 
     try:
-        cursor.execute("SELECT password FROM users WHERE email = %s", (email,))
+        cursor.execute("SELECT password, user_id FROM users WHERE email = %s", (email,))
         user = cursor.fetchone()
         if user is None:
             raise Exception("User not found")
         if user[0] != password:
             raise Exception("Incorrect password")
-        request.session["email"] = email
-        request.session['user_id'] = user[0]
-        return True
+        return user[1]
     except Exception as e:
         raise e 
     finally:

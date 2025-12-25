@@ -1,6 +1,7 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Request, Form
 from app.models import SavePreferenceRequest, CheckAnswerRequest, Chapter, Concept, Question, LearningPath
 from typing import List
+from app.controllers.authControllers import saveUserPreferenceService
 
 router = APIRouter()
 
@@ -32,14 +33,13 @@ questions_db = [
 ]
 
 @router.post("/save-preference")
-async def save_preference(request: SavePreferenceRequest):
-    preference = {
-        "goals": request.goals,
-        "preferences": request.preferences,
-        "experience": request.experience
-    }
-    preferences_db.append(preference)
-    return {"message": "Preferences saved successfully"}
+async def saveUserPreference(request: Request, payload: str = Form(...)):
+    try:
+        user = saveUserPreferenceService(request, payload)
+        if user:
+            return {"message": "User preference saved successfully"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 @router.get("/learning-path")
 async def get_learning_path():

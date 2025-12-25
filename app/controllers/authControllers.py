@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, Form, Request
 from fastapi.responses import JSONResponse
 from app.models import LoginRequest, RegisterRequest
-from app.services.registerService import registerUserService
+from app.services.registerService import registerUserService, saveUserPreferenceService
 from app.services.loginUserService import loginUserService
 import json
 
@@ -25,7 +25,11 @@ async def loginUser(request: Request, payload: str = Form(...)):
             # Add session data
             data = json.loads(payload)
             request.session["user_email"] = data.get("email")
-            request.session["is_authenticated"] = True
+            request.session["user_id"] = user
             return {"message": "User Logged in successfully"}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+    
+async def logout(request: Request):
+    request.session.clear()
+    return {"message": "Logged out successfully"}
