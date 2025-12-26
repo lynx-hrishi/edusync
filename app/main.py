@@ -60,6 +60,10 @@ async def get_profile(request: Request):
 async def get_profile(request: Request):
     return templates.TemplateResponse("Login.html", {"request": request})
 
+@app.get("/preferences")
+async def get_profile(request: Request):
+    return templates.TemplateResponse("pref.html", {"request": request})
+
 @app.get("/register")
 async def get_profile(request: Request):
     return templates.TemplateResponse("Register.html", {"request": request})

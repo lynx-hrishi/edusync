@@ -41,7 +41,22 @@ async function openChapter(chapterId) {
     document.getElementById("roadmap").style.display = "none";
     document.getElementById("chapterDetail").style.display = "block";
     
-    document.getElementById("chapterTitle").innerText = chapter.title;
+    // Get mastery status for this chapter
+    let masteryStatus = 'Not Started';
+    try {
+        const masteryResponse = await fetch(`/api/check-mastery/${chapterId}`);
+        const masteryData = await masteryResponse.json();
+        if (masteryData.success) {
+            const mastery = masteryData.data.overall_mastery;
+            if (mastery >= 80) masteryStatus = 'Mastered';
+            else if (mastery >= 50) masteryStatus = 'Learning';
+            else if (mastery > 0) masteryStatus = 'Struggling';
+        }
+    } catch (error) {
+        console.log('No mastery data for chapter', chapterId);
+    }
+    
+    document.getElementById("chapterTitle").innerText = `${chapter.title} (Mastery Status: ${masteryStatus})`;
     document.getElementById("chapterDescription").innerText = chapter.description;
     
     const subtopicsDiv = document.getElementById("subtopics");

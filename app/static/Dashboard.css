@@ -161,6 +161,19 @@ body {
     background: #ef4444;
 }
 
+/* Progress status styles */
+.fill.completed {
+    background: #22c55e;
+}
+
+.fill.in_progress {
+    background: #3b82f6;
+}
+
+.fill.not_started {
+    background: #6b7280;
+}
+
 
 .continue {
     background: rgba(255, 255, 255, 0.08);

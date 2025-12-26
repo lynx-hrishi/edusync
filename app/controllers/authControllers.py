@@ -28,7 +28,21 @@ async def loginUser(request: Request, payload: str = Form(...)):
             request.session["user_email"] = data.get("email")
             request.session["user_id"] = user[0]
             request.session["username"] = user[1]
-            return successResponse(message="User logged in successfully", data={"redirect_url": "/dashboard"})
+            
+            # Check if user has preferences set
+            from app.config.dbConnect import makeConnection, closeConnection
+            connection_result = makeConnection()
+            if connection_result:
+                conn, cursor = connection_result
+                cursor.execute("SELECT COUNT(*) FROM user_preference WHERE user_id = %s", (user[0],))
+                has_preferences = cursor.fetchone()[0] > 0
+                closeConnection(conn, cursor)
+                
+                redirect_url = "/dashboard" if has_preferences else "/preferences"
+            else:
+                redirect_url = "/preferences"  # Default to preferences if DB check fails
+            
+            return successResponse(message="User logged in successfully", data={"redirect_url": redirect_url})
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
     
