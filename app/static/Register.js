@@ -33,7 +33,7 @@ registerbtn.addEventListener("click", async (e) => {
         }
 
         // Redirect to goals page after successful registration
-        window.location.href = "/pref";
+        window.location.href = "/login";
 
     } catch (err) {
         error.textContent = "Server error"

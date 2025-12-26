@@ -10,7 +10,7 @@ router = APIRouter()
 async def registerUser(payload: str = Form(...)):
     try:
         user = registerUserService(payload)
-        if "error" in user:
+        if isinstance(user, dict):
             return errorResponse(error=user["error"], status_code=user["status"])
         elif user:
             return successResponse(message="User registered successfully", status_code=201)

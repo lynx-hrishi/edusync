@@ -5,9 +5,9 @@ document.addEventListener('DOMContentLoaded', function() {
         e.preventDefault();
         
         // Get selected values
-        const goal = document.querySelector('input[name="goal"]:checked')?.value;
-        const preference = document.querySelector('input[name="pref"]:checked')?.value;
-        const experience = document.querySelector('input[name="exp"]:checked')?.value;
+        const goal = document.querySelector('input[name="goal"]:checked').value;
+        const preference = document.querySelector('input[name="pref"]:checked').value;
+        const experience = document.querySelector('input[name="exp"]:checked').value;
         
         // Validate selections
         if (!goal || !preference || !experience) {
@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
             };
             
             formData.append('payload', JSON.stringify(payload));
+            console.log({payload})
             
             const response = await fetch('/api/save-preference', {
                 method: 'POST',

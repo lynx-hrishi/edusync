@@ -28,7 +28,8 @@ def registerUserService(payload):
         
         user_id = cursor.lastrowid
         print(user_id)
-        cursor.execute("INSERT INTO progress (user_id, chapter_id, total_attempts, correct_attempts, isCompleted) values(%s, %s, %s, %s, %s)", (user_id, 1, 0, 0, 0))
+        cursor.execute("INSERT INTO progress (user_id, chapter_id, total_attempts, correct_attempts, isCompleted) VALUES (%s, %s, %s, %s, %s)", 
+                       (user_id, 1, 0, 0, False))
         commitValues(conn)
         return True
     except Exception as e:
@@ -40,10 +41,10 @@ def registerUserService(payload):
 def saveUserPreferenceService(request: Request, payload):
     data = json.loads(payload)
     goals = data.get('goals')
-    preferences = data.get('preferences')
+    preferences = data.get('preference')
     experience = data.get('experience')
 
-    # print(goals, preferences, experience)
+    print(goals, preferences, experience)
     connection_result = makeConnection()
     if connection_result is None:
         raise Exception("Database connection failed")

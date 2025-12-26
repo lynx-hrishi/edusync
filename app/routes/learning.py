@@ -126,6 +126,7 @@ async def test_concept(request: Request, chapter_id: int, concept_id: int):
         user_data = cursor.fetchone()
         user_preference = user_data[0]
         user_experience = user_data[1]
+        print(user_preference, user_experience)
 
         prompt_preference = {
             "Prefer more concise explanation": "Be more detailed when explaining the concepts",
