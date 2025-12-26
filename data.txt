@@ -1,0 +1,2034 @@
+*Time and Space Complexity
+
+
+Many times there are more than one ways to solve a problem with different algorithms and we need a way to compare multiple ways. Also, there are situations where we would like to know how much time and resources an algorithm might take when implemented. To measure performance of algorithms, we typically use time and space complexity analysis. The idea is to measure order of growths in terms of input size.
+
+Independent of the machine and its configuration, on which the algorithm is running on.
+Shows a direct correlation with the number of inputs.
+Can distinguish two algorithms clearly without ambiguity.
+
+*Time Complexity: The time complexity of an algorithm quantifies the amount of time taken by an algorithm to run as a function of the length of the input. Note that the time to run is a function of the length of the input and not the actual execution time of the machine on which the algorithm is running on.
+
+The valid algorithm takes a finite amount of time for execution. The time required by the algorithm to solve given problem is called time complexity  of the algorithm. Time complexity is very useful measure in algorithm analysis.
+
+ It is the time needed for the completion of an algorithm. To estimate the time complexity, we need to consider the cost of each fundamental instruction and the number of times the instruction is executed.
+
+The addition of two scalar numbers requires one addition operation. the time complexity of this algorithm is constant, so T(n) = O(1) .
+Algorithm ADD SCALAR(A, B)
+//Description: Perform arithmetic addition of two numbers
+//Input: Two scalar variables A and B
+//Output: variable C, which holds the addition of A and B
+C <- A + B
+return C
+
+In order to calculate time complexity on an algorithm, it is assumed that a constant time c is taken to execute one operation, and then the total operations for an input length on N are calculated. Consider an example to understand the process of calculation: Suppose a problem is to find whether a pair (X, Y) exists in an array, A of N elements whose sum is Z. The simplest idea is to consider every pair and check if it satisfies the given condition or not.
+
+The pseudo-code is as follows:
+
+int a[n];
+for(int i = 0;i < n;i++)
+  cin >> a[i]
+  
+for(int i = 0;i < n;i++)
+  for(int j = 0;j < n;j++)
+    if(i!=j && a[i]+a[j] == z)
+       return true
+return false
+
+# Python3 program for the above approach
+
+# Function to find a pair in the given
+# array whose sum is equal to z
+def findPair(a, n, z) :
+    
+    # Iterate through all the pairs
+    for i in range(n) :
+        for j in range(n) :
+
+            # Check if the sum of the pair
+            # (a[i], a[j]) is equal to z
+            if (i != j and a[i] + a[j] == z) :
+                return True
+
+    return False
+
+# Driver Code
+
+# Given Input
+a = [ 1, -2, 1, 0, 5 ]
+z = 0
+n = len(a) 
+
+# Function Call
+if (findPair(a, n, z)) :
+    print("True")
+else :
+    print("False")
+    
+    # This code is contributed by splevel62.
+
+Output
+False
+
+
+Assuming that each of the operations in the computer takes approximately constant time, let it be c. The number of lines of code executed actually depends on the value of Z. During analyses of the algorithm, mostly the worst-case scenario is considered, i.e., when there is no pair of elements with sum equals Z. In the worst case, 
+
+N*c operations are required for input.
+The outer loop i loop runs N times.
+For each i, the inner loop j loop runs N times.
+So total execution time is N*c + N*N*c + c. Now ignore the lower order terms since the lower order terms are relatively insignificant for large input, therefore only the highest order term is taken (without constant) which is N*N in this case. Different notations are used to describe the limiting behavior of a function, but since the worst case is taken so big-O notation will be used to represent the time complexity.
+
+Hence, the time complexity is O(N2) for the above algorithm. Note that the time complexity is solely based on the number of elements in array A i.e the input length, so if the length of the array will increase the time of execution will also increase.
+
+Order of growth is how the time of execution depends on the length of the input. In the above example, it is clearly evident that the time of execution quadratically depends on the length of the array. Order of growth will help to compute the running time with ease.
+
+Another Example: Let's calculate the time complexity of the below algorithm:
+
+
+count = 0 
+i = N
+while(i > 0):
+  for j in range(i):
+    count+=1
+  i /= 2
+
+This is a tricky case. In the first look, it seems like the complexity is O(N * log N). N for the j′s loop and log(N) for i′s loop. But it's wrong. Let's see why.
+
+Think about how many times count++ will run. 
+
+When i = N, it will run N times.
+When i = N / 2, it will run N / 2 times.
+When i = N / 4, it will run N / 4 times.
+And so on.
+The total number of times count++ will run is N + N/2 + N/4+...+1= 2 * N. So the time complexity will be O(N).
+Some general time complexities are listed below with the input range for which they are accepted in competitive programming: 
+
+Input Length	Worst Accepted Time Complexity	
+Usually type of solutions
+
+10 -12
+
+O(N!)
+
+Recursion and backtracking
+
+15-18
+
+O(2N * N)
+
+Recursion, backtracking, and bit manipulation
+
+18-22
+
+O(2N * N)
+
+Recursion, backtracking, and bit manipulation
+
+30-40
+
+                       O(2N/2 * N)	
+Meet in the middle, Divide and Conquer
+
+100
+
+O(N4)
+
+Dynamic programming, Constructive
+
+400
+
+O(N3)
+
+Dynamic programming, Constructive
+
+2K
+
+O(N2* log N)
+
+Dynamic programming, Binary Search, Sorting, 
+Divide and Conquer
+
+10K
+
+O(N2)
+
+Dynamic programming, Graph, Trees, Constructive
+
+1M
+
+O(N* log N)
+
+Sorting, Binary Search, Divide and Conquer
+
+100M
+
+O(N), O(log N), O(1)
+
+Constructive, Mathematical, Greedy Algorithms
+
+
+*Space Complexity:
+ 
+Definition -
+
+Problem-solving using computer requires memory to hold temporary data or final result while the program is in execution. The amount of memory required by the algorithm to solve given problem is called space complexity of the algorithm.
+
+The space complexity of an algorithm quantifies the amount of space taken by an algorithm to run as a function of the length of the input. Consider an example: Suppose a problem to find the frequency of array elements.
+
+It is the amount of memory needed for the completion of an algorithm. 
+
+To estimate the memory requirement we need to focus on two parts: 
+
+(1) A fixed part: It is independent of the input size. It includes memory for instructions (code), constants, variables, etc.
+
+(2) A variable part: It is dependent on the input size. It includes memory for recursion stack, referenced variables, etc.
+
+Example : Addition of two scalar variables
+
+Algorithm ADD SCALAR(A, B)
+//Description: Perform arithmetic addition of two numbers
+//Input: Two scalar variables A and B
+//Output: variable C, which holds the addition of A and B
+C <— A+B
+return C
+The addition of two scalar numbers requires one extra memory location to hold the result. Thus the space complexity of this algorithm is constant, hence S(n) = O(1).
+
+The pseudo-code is as follows: 
+
+int freq[n];
+int a[n];
+for(int i = 0; i<n; i++)
+{
+   cin>>a[i];
+   freq[a[i]]++;
+}  
+Below is the implementation of the above approach:
+
+
+
+
+# Python program for the above approach
+​
+# Function to count frequencies of array items
+def countFreq(arr, n):
+    freq = dict()
+    
+    # Traverse through array elements and
+    # count frequencies
+    for i in arr:
+        if i not in freq:
+            freq[i] = 0
+        freq[i]+=1
+        
+    # Traverse through map and print frequencies
+    for x in freq:
+        print(x, freq[x])
+​
+# Driver Code
+​
+# Given array
+arr =  [10, 20, 20, 10, 10, 20, 5, 20 ]
+n = len(arr)
+​
+# Function Call
+countFreq(arr, n)
+​
+# This code is contributed by Shubham Singh
+
+Output
+5 1
+20 4
+10 3
+Here two arrays of length N, and variable i are used in the algorithm so, the total space used is N * c + N * c + 1 * c = 2N * c + c, where c is a unit space taken. For many inputs, constant c is insignificant, and it can be said that the space complexity is O(N).
+
+There is also auxiliary space, which is different from space complexity. The main difference is where space complexity quantifies the total space used by the algorithm, auxiliary space quantifies the extra space that is used in the algorithm apart from the given input. In the above example, the auxiliary space is the space used by the freq[] array because that is not part of the given input. So total auxiliary space is N * c + c which is O(N) only. 
+
+
+*Arrays
+An array is a data structure used to store multiple elements.
+
+Arrays are used by many algorithms.
+
+In Python, an array can be created like this:
+
+my_array = [7, 12, 9, 4, 11]
+
+Note: The Python code above actually generates a Python 'list' data type, but for the scope of this tutorial the 'list' data type can be used in the same way as an array. Learn more about Python lists here.
+
+Arrays are indexed, meaning that each element in the array has an index, a number that says where in the array the element is located. The programming languages in this tutorial (Python, Java, and C) use zero-based indexing for arrays, meaning that the first element in an array can be accessed at index 0.
+
+In Python, this code use index 0 to write the first array element (value 7) to the console:
+
+Example
+Python:
+
+my_array = [7, 12, 9, 4, 11]
+print( my_array[0] )
+
+
+Algorithm: Find The Lowest Value in an Array
+Let's create our first algorithm using the array data structure.
+
+Below is the algorithm to find the lowest number in an array.
+
+How it works:
+
+Go through the values in the array one by one.
+Check if the current value is the lowest so far, and if it is, store it.
+After looking at all the values, the stored value will be the lowest of all values in the array.
+Implementation
+Before implementing the algorithm using an actual programming language, it is usually smart to first write the algorithm as a step-by-step procedure.
+
+If you can write down the algorithm in something between human language and programming language, the algorithm will be easier to implement later because we avoid drowning in all the details of the programming language syntax.
+
+Create a variable 'minVal' and set it equal to the first value of the array.
+Go through every element in the array.
+If the current element has a lower value than 'minVal', update 'minVal' to this value.
+After looking at all the elements in the array, the 'minVal' variable now contains the lowest value.
+You can also write the algorithm in a way that looks more like a programming language if you want to, like this:
+
+Variable 'minVal' = array[0]
+For each element in the array
+    If current element < minVal
+        minVal = current element
+
+Note: The two step-by-step descriptions of the algorithm we have written above can be called 'pseudocode'. Pseudocode is a description of what a program does, using language that is something between human language and a programming language.
+
+After we have written down the algorithm, it is much easier to implement the algorithm in a specific programming language:
+
+Example
+Python:
+
+my_array = [7, 12, 9, 4, 11]
+minVal = my_array[0]    # Step 1
+
+for i in my_array:      # Step 2
+    if i < minVal:      # Step 3
+        minVal = i
+        
+print('Lowest value: ',minVal) # Step 4
+
+Algorithm Time Complexity
+Run Time
+When exploring algorithms, we often look at how much time an algorithm takes to run relative to the size of the data set.
+
+In the example above, the time the algorithm needs to run is proportional, or linear, to the size of the data set. This is because the algorithm must visit every array element one time to find the lowest value. The loop must run 5 times since there are 5 values in the array. And if the array had 1000 values, the loop would have to run 1000 times.
+Arrays are used to build other data structures like Stack Queue, Deque, Graph, Hash Table, etc. An array is not useful in places where we have operations like insert in the middle, delete from middle and search in a unsorted data.
+
+Prefix sum coding pattern. Prefix Sum is a technique used to ...Prefix Sums pre-calculate cumulative totals for O(1) range sum queries, while Sliding Window efficiently processes contiguous subarrays/substrings by moving a "window" (expanding/shrinking) over data, avoiding recomputation; they're complementary, with Sliding Window often using Prefix Sums for quick sum checks or applying principles together for problems like finding max sum subarrays or longest substrings with certain properties. 
+Prefix Sum
+Concept: An array P where P[i] holds the sum of all elements from the original array A[0] to A[i].
+How it works: P[i] = P[i-1] + A[i] (with P[-1] = 0).
+Benefit: Get sum of A[l...r] as P[r] - P[l-1] in O(1) time after O(N) precomputation.
+Use Case: Range sum queries, finding pivot indices, problems involving subarray sums. 
+Sliding Window
+Concept: A conceptual window (start/end pointers) that moves across the array/string, maintaining state within the window.
+How it works: Expand window (move end), contract window (move start) based on criteria, update results incrementally.
+Benefit: Efficiently solves problems on contiguous segments, often O(N) time.
+Use Case: Longest/shortest substring with unique chars, max/min sum subarray of fixed/variable size. 
+How They Work Together
+Combined Power: Use Prefix Sums for fast sum checks within a Sliding Window.
+Example: Finding the longest subarray with sum k.
+Prefix Sums: Precompute prefix sums.
+Sliding Window: Maintain current_sum. If current_sum - k exists in a hash map of previous prefix sums, you found a valid subarray.
+Not Always Together: Prefix Sums are for sums; Sliding Window is for contiguous segments. Sometimes one works better, sometimes both help, depending on the specific problem constraint (e.g., fixed vs. variable window, sum-based vs. property-based). 
+
+
+*Strings
+
+What is a String?
+
+A string is simply a collection of characters arranged in a sequence.
+
+Examples:
+
+"hello"
+
+"abc123"
+
+"DSA Roadmap"
+
+Each character in a string has a position (index) starting from 0.
+
+So for "code":
+
+c → index 0
+
+o → index 1
+
+d → index 2
+
+e → index 3
+
+Strings are used everywhere:
+
+Usernames & passwords
+
+Searching text
+
+Chat messages
+
+URLs
+
+DNA sequences
+
+That’s why string problems are extremely common in interviews.
+Before solving problems, you must understand these facts:
+
+Strings have a fixed length
+
+Most languages treat strings as immutable
+
+Accessing a character is fast → O(1)
+
+Traversing the whole string takes → O(n)
+
+This is why efficient techniques are needed.
+
+Why String Problems Feel Tricky
+
+Unlike arrays, string problems usually involve:
+
+Matching patterns
+
+Checking conditions on characters
+
+Repeated comparisons
+
+Hidden constraints
+
+A wrong approach easily becomes O(n²)
+Good approaches stay O(n)
+
+This is where techniques like Two Pointers and Pattern Matching help.
+
+*Two Pointers Technique
+
+
+The Two-Pointers Technique is a simple yet powerful strategy where you use two indices (pointers) that traverse a data structure—such as an array, list, or string—either toward each other or in the same direction to solve problems more efficiently
+
+Two pointers is really an easy and effective technique that is typically used for Two Sum in Sorted Arrays, Closest Two Sum, Three Sum, Four Sum, Trapping Rain Water and many other popular interview questions.
+
+When to Use Two Pointers:
+Sorted Input : If the array or list is already sorted (or can be sorted), two pointers can efficiently find pairs or ranges. Example: Find two numbers in a sorted array that add up to a target.
+Pairs or Subarrays : When the problem asks about two elements, subarrays, or ranges instead of working with single elements. Example: Longest substring without repeating characters, maximum consecutive ones, checking if a string is palindrome.
+Sliding Window Problems : When you need to maintain a window of elements that grows/shrinks based on conditions. Example: Find smallest subarray with sum ≥ K, move all zeros to end while maintaining order.
+Linked Lists (Slow–Fast pointers) : Detecting cycles, finding the middle node, or checking palindrome property. Example: Floyd’s Cycle Detection Algorithm (Tortoise and Hare).
+Example Problem - Sum of Pair Equal to Target
+Given a sorted array arr (sorted in ascending order) and a target, find if there exists any pair of elements (arr[i], arr[j]) such that their sum is equal to the target.
+
+Illustration : 
+
+Input: arr[] = [10, 20, 35, 50], target =70
+Output:  true
+Explanation : There is a pair (20, 50) with given target.
+
+Input: arr[] = [10, 20, 30], target =70
+Output :  false
+Explanation : There is no pair with sum 70
+
+Input: arr[] = [-8, 1, 4, 6, 10, 45], target = 16
+Output: true
+Explanation : There is a pair (6, 10) with given target.
+
+
+Naive Method - O(n^2) Time and O(1) Space
+The very basic approach is to generate all the possible pairs and check if any of them add up to the target value. To generate all pairs, we simply run two nested loops.
+
+
+
+
+# Function to check whether any pair exists
+# whose sum is equal to the given target value
+def two_sum(arr, target):
+    n = len(arr)
+​
+    # Iterate through each element in the array
+    for i in range(n):
+      
+        # For each element arr[i], check every
+        # other element arr[j] that comes after it
+        for j in range(i + 1, n):
+          
+            # Check if the sum of the current pair
+            # equals the target
+            if arr[i] + arr[j] == target:
+                return True
+              
+    # If no pair is found after checking
+    # all possibilities
+    return False
+​
+arr = [0, -1, 2, -3, 1]
+target = -2
+​
+# Call the two_sum function and print the result
+if two_sum(arr, target):
+    print("true")
+else:
+    print("false")
+
+Output
+true
+
+
+Two-Pointer Technique - O(n) time and O(1) space
+The idea of this technique is to begin with two corners of the given array. We use two index variables left and right to traverse from both corners.
+
+Initialize: left = 0, right = n - 1
+Run a loop while left < right, do the following inside the loop
+
+Compute current sum, sum = arr[left] + arr[right]
+If the sum equals the target, we’ve found the pair.
+If the sum is less than the target, move the left pointer to the right to increase the sum.
+If the sum is greater than the target, move the right pointer to the left to decrease the sum.
+
+# Function to check whether any pair exists
+# whose sum is equal to the given target value
+def two_sum(arr, target):
+    # Sort the array
+
+    left, right = 0, len(arr) - 1
+
+    # Iterate while left pointer is less than right
+    while left < right:
+        sum = arr[left] + arr[right]
+
+        # Check if the sum matches the target
+        if sum == target:
+            return True
+        elif sum < target: 
+            left += 1  # Move left pointer to the right
+        else:
+            right -= 1 # Move right pointer to the left
+
+    # If no pair is found
+    return False
+
+arr = [-3, -1, 0, 1, 2]
+target = -2
+
+# Call the two_sum function and print the result
+if two_sum(arr, target):
+    print("true")
+else:
+    print("false")
+
+
+Output
+true
+
+Time Complexity: O(n) as the loops runs at most n times. We either increase left, or decrease right or stop the loop.
+Auxiliary Space: O(1)
+
+How does this work?
+We need to prove that we never miss a valid pair.
+
+Case 1 ( When we increment left ) In this case we simply ignore current arr[left] and move to the next element by doing left++. We do this when arr[left] + arr[right] is smaller than the target. The reason this step is safe is, if arr[left] is giving a smaller value than sum, then it will given even much less values for the elements before arr[right]. Now how about the elements after arr[right]? Note that we moved right when we were sure that no pair can be formed with the current right (arr[right] was too high), so arr[left] can not form a pair with those values also.
+
+Case 2 (When we decrement right) We can use the same reasoning (as we discussed for left) to prove that we never miss out a valid pair.
+
+*pattern Matching 
+
+String pattern matching in Data Structures and Algorithms (DSA) involves finding occurrences of a smaller pattern string within a larger text string. The goal is to efficiently locate all instances (or the starting indices) where the pattern appears in the text. 
+Common Algorithms
+Several algorithms have been developed to optimize the search process, ranging from simple to highly efficient: 
+Naïve Algorithm (Brute Force): This is the simplest approach, which slides the pattern over the text one position at a time and compares every character. It is easy to implement but inefficient for large texts, with a worst-case time complexity of O(n*m), where n is the text length and m is the pattern length.
+Knuth-Morris-Pratt (KMP) Algorithm: The KMP algorithm improves upon the naive approach by preprocessing the pattern to build a "failure function" or Longest Prefix Suffix (LPS) array. This allows it to skip unnecessary comparisons upon a mismatch, achieving a linear time complexity of O(n + m).
+Rabin-Karp Algorithm: This algorithm uses a hashing technique (specifically, a rolling hash) to quickly compare the hash value of the pattern with the hash values of substrings in the text. A full character-by-character comparison is only performed if the hash values match, which helps avoid false positives. It has an average time complexity of O(n), though the worst case is O(n*m).
+Boyer-Moore Algorithm: Known for being very efficient in practice, this algorithm starts the matching process from the last character of the pattern and uses two heuristics (the "bad character rule" and the "good suffix rule") to skip large portions of the text upon a mismatch. 
+Applications
+String pattern matching algorithms are crucial in various real-world applications: 
+Text Processing: Used in spell checkers, grammar checks, and text editors.
+Bioinformatics: Essential for searching and matching DNA and protein sequences to identify diseases or genes.
+Data Security: Helps in malware detection and intrusion detection systems by identifying known malicious patterns.
+Search Engines: Used to match user queries with web content and provide relevant results quickly.
+Plagiarism Detection: Software like Turnitin uses these algorithms to compare documents for similar content. 
+
+In Data Structures and Algorithms (DSA), recursion is a technique where a function calls itself to solve smaller instances of the same problem, while backtracking is an algorithmic strategy that uses recursion to explore all possible solutions by incrementally building a solution and undoing choices that lead to dead ends. 
+Recursion
+Recursion breaks down a problem into smaller, identical subproblems until a simple base case is reached, which stops the infinite calls. The results from the base cases are then combined to solve the original problem. 
+Key Principles:
+Base Case: A stopping condition that does not use recursion.
+Recursive Case: The part of the function that calls itself with a modified, smaller input.
+Call Stack: Each recursive call is managed by the call stack data structure in memory. A stack overflow error can occur if the recursion goes too deep without a proper base case.
+Applications: Tree and graph traversals (like DFS), factorial calculations, Fibonacci series, and divide and conquer algorithms such as Merge Sort and Quick Sort. 
+Backtracking
+Backtracking is a refined form of recursion that is used for problems requiring an exhaustive search of all possibilities to find one or all valid solutions. It is a trial-and-error method that systematically explores potential solutions and "backtracks" (undoes the last choice) when a path violates the problem's constraints. 
+Key Principles:
+Choose: Make a potential choice for the next step in the solution.
+Explore: Recursively move forward with that choice.
+Unchoose (Backtrack): If the current choice leads to a dead end or an invalid state, undo the choice and return to the previous state to try a different option.
+Pruning: Eliminating branches of the search tree that cannot lead to a valid solution to optimize the search.
+Applications: Solving puzzles like Sudoku, the N-Queens problem, the Rat in a Maze problem, generating permutations and combinations, and the Subset Sum problem. 
+Summary of Differences
+Aspect 	Recursion	Backtracking
+Purpose	To solve a problem by breaking it into smaller subproblems.	To explore all possible solutions systematically and find all valid ones.
+Method	Solves subproblems and combines results; explores all paths until the base case.	Builds solutions incrementally, uses "pruning" to abandon invalid paths early, and reverses decisions.
+Structure	A function calling itself.	Always uses recursion, with the added step of explicitly managing the state to "unchoose".
+Efficiency	Can be inefficient (e.g., in naive Fibonacci) but can be optimized (e.g., dynamic programming).	Typically exponential time complexity in the worst case (brute force search), but pruning helps.
+In short, backtracking is a specific, constrained application of the more general recursive programming technique, often used for combinatorial problems where multiple choices must be explored. For practical examples and common interview questions, you can find helpful resources like the GeeksforGeeks tutorials on Backtracking and Recursion. 
+
+Bubble Sort
+Bubble Sort is an algorithm that sorts an array from the lowest value to the highest value.
+The word 'Bubble' comes from how this algorithm works, it makes the highest values 'bubble up'.
+
+How it works:
+
+Go through the array, one value at a time.
+For each value, compare the value with the next value.
+If the value is higher than the next one, swap the values so that the highest value comes last.
+Go through the array as many times as there are values in the array.
+Manual Run Through
+Before we implement the Bubble Sort algorithm in a programming language, let's manually run through a short array only one time, just to get the idea.
+
+Step 1: We start with an unsorted array.
+
+[7, 12, 9, 11, 3]
+Step 2: We look at the two first values. Does the lowest value come first? Yes, so we don't need to swap them.
+
+[7, 12, 9, 11, 3]
+Step 3: Take one step forward and look at values 12 and 9. Does the lowest value come first? No.
+
+[7, 12, 9, 11, 3]
+Step 4: So we need to swap them so that 9 comes first.
+
+[7, 9, 12, 11, 3]
+Step 5: Taking one step forward, looking at 12 and 11.
+
+[7, 9, 12, 11, 3]
+Step 6: We must swap so that 11 comes before 12.
+
+[7, 9, 11, 12, 3]
+Step 7: Looking at 12 and 3, do we need to swap them? Yes.
+
+[7, 9, 11, 12, 3]
+Step 8: Swapping 12 and 3 so that 3 comes first.
+
+[7, 9, 11, 3, 12]
+
+Manual Run Through: What Happened?
+We must understand what happened in this first run through to fully understand the algorithm, so that we can implement the algorithm in a programming language.
+
+Can you see what happened to the highest value 12? It has bubbled up to the end of the array, where it belongs. But the rest of the array remains unsorted.
+
+So the Bubble Sort algorithm must run through the array again, and again, and again, each time the next highest value bubbles up to its correct position. The sorting continues until the lowest value 3 is left at the start of the array. This means that we need to run through the array 4 times, to sort the array of 5 values.
+
+And each time the algorithm runs through the array, the remaining unsorted part of the array becomes shorter.
+We will now use what we have learned to implement the Bubble Sort algorithm in a programming language.
+
+Bubble Sort Implementation
+To implement the Bubble Sort algorithm in a programming language, we need:
+
+An array with values to sort.
+An inner loop that goes through the array and swaps values if the first value is higher than the next value. This loop must loop through one less value each time it runs.
+An outer loop that controls how many times the inner loop must run. For an array with n values, this outer loop must run n-1 times.
+The resulting code looks like this:
+
+Example
+my_array = [64, 34, 25, 12, 22, 11, 90, 5]
+
+n = len(my_array)
+for i in range(n-1):
+    for j in range(n-i-1):
+        if my_array[j] > my_array[j+1]:
+            my_array[j], my_array[j+1] = my_array[j+1], my_array[j]
+
+print("Sorted array:", my_array)
+Bubble Sort Improvement
+The Bubble Sort algorithm can be improved a little bit more.
+
+Imagine that the array is almost sorted already, with the lowest numbers at the start, like this for example:
+
+my_array = [7, 3, 9, 12, 11]
+In this case, the array will be sorted after the first run, but the Bubble Sort algorithm will continue to run, without swapping elements, and that is not necessary.
+
+If the algorithm goes through the array one time without swapping any values, the array must be finished sorted, and we can stop the algorithm, like this:
+
+Example
+my_array = [7, 3, 9, 12, 11]
+
+n = len(my_array)
+for i in range(n-1):
+    swapped = False
+    for j in range(n-i-1):
+        if my_array[j] > my_array[j+1]:
+            my_array[j], my_array[j+1] = my_array[j+1], my_array[j]
+            swapped = True
+    if not swapped:
+        break
+
+print("Sorted array:", my_array) 
+ 
+ 
+ 
+Bubble Sort Time Complexity
+For a general explanation of what time complexity is, visit this page.
+
+For a more thorough and detailed explanation of Bubble Sort time complexity, visit this page.
+
+The Bubble Sort algorithm loops through every value in the array, comparing it to the value next to it. So for an array of 
+n
+ values, there must be 
+n
+ such comparisons in one loop.
+
+And after one loop, the array is looped through again and again 
+n
+ times.
+
+This means there are 
+n
+⋅
+n
+ comparisons done in total, so the time complexity for Bubble Sort is:
+
+O
+(
+n
+2
+)
+–––––––
+ 
+–––––––
+
+Selection Sort
+The Selection Sort algorithm finds the lowest value in an array and moves it to the front of the array.
+
+The algorithm looks through the array again and again, moving the next lowest values to the front, until the array is sorted.
+
+How it works:
+
+Go through the array to find the lowest value.
+Move the lowest value to the front of the unsorted part of the array.
+Go through the array again as many times as there are values in the array.
+Continue reading to fully understand the Selection Sort algorithm and how to implement it yourself.
+
+Manual Run Through
+Before we implement the Selection Sort algorithm in a programming language, let's manually run through a short array only one time, just to get the idea.
+
+Step 1: We start with an unsorted array.
+
+[ 7, 12, 9, 11, 3]
+Step 2: Go through the array, one value at a time. Which value is the lowest? 3, right?
+
+[ 7, 12, 9, 11, 3]
+Step 3: Move the lowest value 3 to the front of the array.
+
+[ 3, 7, 12, 9, 11]
+Step 4: Look through the rest of the values, starting with 7. 7 is the lowest value, and already at the front of the array, so we don't need to move it.
+
+[ 3, 7, 12, 9, 11]
+Step 5: Look through the rest of the array: 12, 9 and 11. 9 is the lowest value.
+
+[ 3, 7, 12, 9, 11]
+Step 6: Move 9 to the front.
+
+[ 3, 7, 9, 12, 11]
+Step 7: Looking at 12 and 11, 11 is the lowest.
+
+[ 3, 7, 9, 12, 11]
+Step 8: Move it to the front.
+
+[ 3, 7, 9, 11, 12]
+Finally, the array is sorted.
+
+Run the simulation below to see the steps above animated:
+
+Selection Sort
+[ 7,12,9,11,3 ]
+Manual Run Through: What Happened?
+We must understand what happened above to fully understand the algorithm, so that we can implement the algorithm in a programming language.
+
+Can you see what happened to the lowest value 3? In step 3, it has been moved to the start of the array, where it belongs, but at that step the rest of the array remains unsorted.
+
+So the Selection Sort algorithm must run through the array again and again, each time the next lowest value is moved in front of the unsorted part of the array, to its correct position. The sorting continues until the highest value 12 is left at the end of the array. This means that we need to run through the array 4 times, to sort the array of 5 values.
+
+And each time the algorithm runs through the array, the remaining unsorted part of the array becomes shorter.
+
+We will now use what we have learned to implement the Selection Sort algorithm in a programming language.
+
+Selection Sort Implementation
+To implement the Selection Sort algorithm in a programming language, we need:
+
+An array with values to sort.
+An inner loop that goes through the array, finds the lowest value, and moves it to the front of the array. This loop must loop through one less value each time it runs.
+An outer loop that controls how many times the inner loop must run. For an array with 
+n
+ values, this outer loop must run 
+n
+−
+1
+ times.
+The resulting code looks like this:
+
+Example
+my_array = [64, 34, 25, 5, 22, 11, 90, 12]
+
+n = len(my_array)
+for i in range(n-1):
+    min_index = i
+    for j in range(i+1, n):
+        if my_array[j] < my_array[min_index]:
+            min_index = j
+    min_value = my_array.pop(min_index)
+    my_array.insert(i, min_value)
+
+print("Sorted array:", my_array)
+Selection Sort Shifting Problem
+The Selection Sort algorithm can be improved a little bit more.
+
+In the code above, the lowest value element is removed, and then inserted in front of the array.
+
+Each time the next lowest value array element is removed, all following elements must be shifted one place down to make up for the removal.
+
+Shifting other elements when an array element is removed.
+These shifting operation takes a lot of time, and we are not even done yet! After the lowest value (5) is found and removed, it is inserted at the start of the array, causing all following values to shift one position up to make space for the new value, like the image below shows.
+
+Shifting other elements when an array element is inserted.
+Note: You will not see these shifting operations happening in the code if you are using a high level programming language such as Python or Java, but the shifting operations are still happening in the background. Such shifting operations require extra time for the computer to do, which can be a problem.
+
+Solution: Swap Values!
+Instead of all the shifting, swap the lowest value (5) with the first value (64) like below.
+
+Shifting other elements when an array element is inserted.
+We can swap values like the image above shows because the lowest value ends up in the correct position, and it does not matter where we put the other value we are swapping with, because it is not sorted yet.
+
+Here is a simulation that shows how this improved Selection Sort with swapping works:
+
+Speed: 
+
+Selection Sort
+Here is an implementation of the improved Selection Sort, using swapping:
+
+Example
+my_array = [64, 34, 25, 12, 22, 11, 90, 5]
+
+n = len(my_array)
+for i in range(n):
+    min_index = i
+    for j in range(i+1, n):
+        if my_array[j] < my_array[min_index]:
+            min_index = j   
+    my_array[i], my_array[min_index] = my_array[min_index], my_array[i]
+
+print("Sorted array:", my_array) 
+Selection Sort Time Complexity
+For a general explanation of what time complexity is, visit this page.
+
+For a more thorough and detailed explanation of Selection Sort time complexity, visit this page.
+
+Selection Sort sorts an array of 
+n
+ values.
+
+On average, about 
+n
+2
+ elements are compared to find the lowest value in each loop.
+
+And Selection Sort must run the loop to find the lowest value approximately 
+n
+ times.
+
+We get time complexity:
+
+O
+(
+n
+2
+⋅
+n
+)
+=
+O
+(
+n
+2
+)
+–––––––
+ 
+–––––––
+The most significant difference from Bubble sort that we can notice in this simulation is that best and worst case is actually almost the same for Selection Sort (
+O
+(
+n
+2
+)
+), but for Bubble Sort the best case runtime is only 
+O
+(
+n
+)
+.
+
+The difference in best and worst case for Selection Sort is mainly the number of swaps. In the best case scenario Selection Sort does not have to swap any of the values because the array is already sorted. And in the worst case scenario, where the array already sorted, but in the wrong order, so Selection Sort must do as many swaps as there are values in array.
+
+Insertion Sort
+The Insertion Sort algorithm uses one part of the array to hold the sorted values, and the other part of the array to hold values that are not sorted yet.
+The algorithm takes one value at a time from the unsorted part of the array and puts it into the right place in the sorted part of the array, until the array is sorted.
+
+How it works:
+
+Take the first value from the unsorted part of the array.
+Move the value into the correct place in the sorted part of the array.
+Go through the unsorted part of the array again as many times as there are values.
+Continue reading to fully understand the Insertion Sort algorithm and how to implement it yourself.
+
+Manual Run Through
+Before we implement the Insertion Sort algorithm in a programming language, let's manually run through a short array, just to get the idea.
+
+Step 1: We start with an unsorted array.
+
+[ 7, 12, 9, 11, 3]
+Step 2: We can consider the first value as the initial sorted part of the array. If it is just one value, it must be sorted, right?
+
+[ 7, 12, 9, 11, 3]
+Step 3: The next value 12 should now be moved into the correct position in the sorted part of the array. But 12 is higher than 7, so it is already in the correct position.
+
+[ 7, 12, 9, 11, 3]
+Step 4: Consider the next value 9.
+
+[ 7, 12, 9, 11, 3]
+Step 5: The value 9 must now be moved into the correct position inside the sorted part of the array, so we move 9 in between 7 and 12.
+
+[ 7, 9, 12, 11, 3]
+Step 6: The next value is 11.
+
+[ 7, 9, 12, > 11, 3]
+Step 7: We move it in between 9 and 12 in the sorted part of the array.
+
+[ 7, 9, 11, 12, 3]
+Step 8: The last value to insert into the correct position is 3.
+
+[ 7, 9, 11, 12, 3]
+Step 9: We insert 3 in front of all other values because it is the lowest value.
+
+[ 3,7, 9, 11, 12]
+Finally, the array is sorted.
+Manual Run Through: What Happened?
+We must understand what happened above to fully understand the algorithm, so that we can implement the algorithm in a programming language.
+
+The first value is considered to be the initial sorted part of the array.
+
+Every value after the first value must be compared to the values in the sorted part of the algorithm so that it can be inserted into the correct position.
+
+The Insertion Sort Algorithm must run through the array 4 times, to sort the array of 5 values because we do not have to sort the first value.
+
+And each time the algorithm runs through the array, the remaining unsorted part of the array becomes shorter.
+
+We will now use what we have learned to implement the Insertion Sort algorithm in a programming language.
+
+Insertion Sort Implementation
+To implement the Insertion Sort algorithm in a programming language, we need:
+
+An array with values to sort.
+An outer loop that picks a value to be sorted. For an array with 
+n
+ values, this outer loop skips the first value, and must run 
+n
+−
+1
+ times.
+An inner loop that goes through the sorted part of the array, to find where to insert the value. If the value to be sorted is at index 
+i
+, the sorted part of the array starts at index 
+0
+ and ends at index 
+i
+−
+1
+.
+The resulting code looks like this:
+
+Example
+my_array = [64, 34, 25, 12, 22, 11, 90, 5]
+
+n = len(my_array)
+for i in range(1,n):
+    insert_index = i
+    current_value = my_array.pop(i)
+    for j in range(i-1, -1, -1):
+        if my_array[j] > current_value:
+            insert_index = j
+    my_array.insert(insert_index, current_value)
+
+print("Sorted array:", my_array)
+Insertion Sort Improvement
+Insertion Sort can be improved a little bit more.
+
+The way the code above first removes a value and then inserts it somewhere else is intuitive. It is how you would do Insertion Sort physically with a hand of cards for example. If low value cards are sorted to the left, you pick up a new unsorted card, and insert it in the correct place between the other already sorted cards.
+Improved Solution
+We can avoid most of these shift operations by only shifting the values necessary:
+my_array = [64, 34, 25, 12, 22, 11, 90, 5]
+
+n = len(my_array)
+for i in range(1,n):
+    insert_index = i
+    current_value = my_array[i]
+    for j in range(i-1, -1, -1):
+        if my_array[j] > current_value:
+            my_array[j+1] = my_array[j]
+            insert_index = j
+        else:
+            break
+    my_array[insert_index] = current_value
+
+print("Sorted array:", my_array)
+What is also done in the code above is to break out of the inner loop. That is because there is no need to continue comparing values when we have already found the correct place for the current value.
+Insertion Sort Time Complexity
+For a general explanation of what time complexity is, visit this page.
+
+For a more thorough and detailed explanation of Insertion Sort time complexity, visit this page.
+
+Insertion Sort sorts an array of 
+n
+ values.
+
+On average, each value must be compared to about 
+n
+2
+ other values to find the correct place to insert it.
+
+Insertion Sort must run the loop to insert a value in its correct place approximately 
+n
+ times.
+
+We get time complexity for Insertion Sort:
+
+O
+(
+n
+2
+⋅
+n
+)
+=
+O
+(
+n
+2
+)
+–––––––
+ 
+–––––––
+
+Quicksort
+As the name suggests, Quicksort is one of the fastest sorting algorithms.
+Recursion is when a function calls itself.
+
+After the Quicksort algorithm has put the pivot element in between a sub-array with lower values on the left side, and a sub-array with higher values on the right side, the algorithm calls itself twice, so that Quicksort runs again for the sub-array on the left side, and for the sub-array on the right side. The Quicksort algorithm continues to call itself until the sub-arrays are too small to be sorted.
+
+The algorithm can be described like this:
+
+How it works:
+
+Choose a value in the array to be the pivot element.
+Order the rest of the array so that lower values than the pivot element are on the left, and higher values are on the right.
+Swap the pivot element with the first element of the higher values so that the pivot element lands in between the lower and higher values.
+Do the same operations (recursively) for the sub-arrays on the left and right side of the pivot element.
+Continue reading to fully understand the Quicksort algorithm and how to implement it yourself.
+
+Manual Run Through
+Before we implement the Quicksort algorithm in a programming language, let's manually run through a short array, just to get the idea.
+
+Step 1: We start with an unsorted array.
+
+[ 11, 9, 12, 7, 3]
+Step 2: We choose the last value 3 as the pivot element.
+
+[ 11, 9, 12, 7, 3]
+Step 3: The rest of the values in the array are all greater than 3, and must be on the right side of 3. Swap 3 with 11.
+
+[ 3, 9, 12, 7, 11]
+Step 4: Value 3 is now in the correct position. We need to sort the values to the right of 3. We choose the last value 11 as the new pivot element.
+
+[ 3, 9, 12, 7, 11]
+Step 5: The value 7 must be to the left of pivot value 11, and 12 must be to the right of it. Move 7 and 12.
+
+[ 3, 9, 7, 12, 11]
+Step 6: Swap 11 with 12 so that lower values 9 and 7 are on the left side of 11, and 12 is on the right side.
+
+[ 3, 9, 7, 11, 12]
+Step 7: 11 and 12 are in the correct positions. We choose 7 as the pivot element in sub-array [ 9, 7], to the left of 11.
+
+[ 3, 9, 7, 11, 12]
+Step 8: We must swap 9 with 7.
+
+[ 3, 7, 9, 11, 12]
+And now, the array is sorted.
+Manual Run Through: What Happened?
+Before we implement the algorithm in a programming language we need to go through what happened above in more detail.
+
+We have already seen that last value of the array is chosen as the pivot element, and the rest of the values are arranged so that the values lower than the pivot value are to the left, and the higher values are to the right.
+
+After that, the pivot element is swapped with the first of the higher values. This splits the original array in two, with the pivot element in between the lower and the higher values.
+
+Now we need to do the same as above with the sub-arrays on the left and right side of the old pivot element. And if a sub-array has length 0 or 1, we consider it finished sorted.
+
+To sum up, the Quicksort algorithm makes the sub-arrays become shorter and shorter until array is sorted.
+
+Quicksort Implementation
+To write a 'quickSort' method that splits the array into shorter and shorter sub-arrays we use recursion. This means that the 'quickSort' method must call itself with the new sub-arrays to the left and right of the pivot element. Read more about recursion here.
+
+To implement the Quicksort algorithm in a programming language, we need:
+
+An array with values to sort.
+A quickSort method that calls itself (recursion) if the sub-array has a size larger than 1.
+A partition method that receives a sub-array, moves values around, swaps the pivot element into the sub-array and returns the index where the next split in sub-arrays happens.
+The resulting code looks like this:
+
+Example
+def partition(array, low, high):
+    pivot = array[high]
+    i = low - 1
+
+    for j in range(low, high):
+        if array[j] <= pivot:
+            i += 1
+            array[i], array[j] = array[j], array[i]
+
+    array[i+1], array[high] = array[high], array[i+1]
+    return i+1
+
+def quicksort(array, low=0, high=None):
+    if high is None:
+        high = len(array) - 1
+
+    if low < high:
+        pivot_index = partition(array, low, high)
+        quicksort(array, low, pivot_index-1)
+        quicksort(array, pivot_index+1, high)
+
+my_array = [64, 34, 25, 12, 22, 11, 90, 5]
+quicksort(my_array)
+print("Sorted array:", my_array)
+Quicksort Time Complexity
+For a general explanation of what time complexity is, visit this page.
+
+For a more thorough and detailed explanation of Quicksort time complexity, visit this page.
+
+The worst case scenario for Quicksort is 
+O
+(
+n
+2
+)
+. This is when the pivot element is either the highest or lowest value in every sub-array, which leads to a lot of recursive calls. With our implementation above, this happens when the array is already sorted.
+
+But on average, the time complexity for Quicksort is actually just 
+O
+(
+n
+log
+n
+)
+, which is a lot better than for the previous sorting algorithms we have looked at. That is why Quicksort is so popular.
+
+The recursion part of the Quicksort algorithm is actually a reason why the average sorting scenario is so fast, because for good picks of the pivot element, the array will be split in half somewhat evenly each time the algorithm calls itself. So the number of recursive calls do not double, even if the number of values 
+n
+ double.
+
+Merge Sort
+The Merge Sort algorithm is a divide-and-conquer algorithm that sorts an array by first breaking it down into smaller arrays, and then building the array back together the correct way so that it is sorted.
+
+Divide: The algorithm starts with breaking up the array into smaller and smaller pieces until one such sub-array only consists of one element.
+
+Conquer: The algorithm merges the small pieces of the array back together by putting the lowest values first, resulting in a sorted array.
+
+The breaking down and building up of the array to sort the array is done recursively.
+
+The Merge Sort algorithm can be described like this:
+
+How it works:
+
+Divide the unsorted array into two sub-arrays, half the size of the original.
+Continue to divide the sub-arrays as long as the current piece of the array has more than one element.
+Merge two sub-arrays together by always putting the lowest value first.
+Keep merging until there are no sub-arrays left.
+
+Manual Run Through
+Let's try to do the sorting manually, just to get an even better understanding of how Merge Sort works before actually implementing it in a programming language.
+
+Step 1: We start with an unsorted array, and we know that it splits in half until the sub-arrays only consist of one element. The Merge Sort function calls itself two times, once for each half of the array. That means that the first sub-array will split into the smallest pieces first.
+
+[ 12, 8, 9, 3, 11, 5, 4]
+[ 12, 8, 9] [ 3, 11, 5, 4]
+[ 12] [ 8, 9] [ 3, 11, 5, 4]
+[ 12] [ 8] [ 9] [ 3, 11, 5, 4]
+Step 2: The splitting of the first sub-array is finished, and now it is time to merge. 8 and 9 are the first two elements to be merged. 8 is the lowest value, so that comes before 9 in the first merged sub-array.
+
+[ 12] [ 8, 9] [ 3, 11, 5, 4]
+Step 3: The next sub-arrays to be merged is [ 12] and [ 8, 9]. Values in both arrays are compared from the start. 8 is lower than 12, so 8 comes first, and 9 is also lower than 12.
+
+[ 8, 9, 12] [ 3, 11, 5, 4]
+Step 4: Now the second big sub-array is split recursively.
+
+[ 8, 9, 12] [ 3, 11, 5, 4]
+[ 8, 9, 12] [ 3, 11] [ 5, 4]
+[ 8, 9, 12] [ 3] [ 11] [ 5, 4]
+Step 5: 3 and 11 are merged back together in the same order as they are shown because 3 is lower than 11.
+
+[ 8, 9, 12] [ 3, 11] [ 5, 4]
+Step 6: Sub-array with values 5 and 4 is split, then merged so that 4 comes before 5.
+
+[ 8, 9, 12] [ 3, 11] [ 5] [ 4]
+[ 8, 9, 12] [ 3, 11] [ 4, 5]
+Step 7: The two sub-arrays on the right are merged. Comparisons are done to create elements in the new merged array:
+
+3 is lower than 4
+4 is lower than 11
+5 is lower than 11
+11 is the last remaining value
+[ 8, 9, 12] [ 3, 4, 5, 11]
+Step 8: The two last remaining sub-arrays are merged. Let's look at how the comparisons are done in more detail to create the new merged and finished sorted array:
+
+3 is lower than 8:
+
+Before [ 8, 9, 12] [ 3, 4, 5, 11]
+After: [ 3, 8, 9, 12] [ 4, 5, 11]
+Step 9: 4 is lower than 8:
+
+Before [ 3, 8, 9, 12] [ 4, 5, 11]
+After: [ 3, 4, 8, 9, 12] [ 5, 11]
+Step 10: 5 is lower than 8:
+
+Before [ 3, 4, 8, 9, 12] [ 5, 11]
+After: [ 3, 4, 5, 8, 9, 12] [ 11]
+Step 11: 8 and 9 are lower than 11:
+
+Before [ 3, 4, 5, 8, 9, 12] [ 11]
+After: [ 3, 4, 5, 8, 9, 12] [ 11]
+Step 12: 11 is lower than 12:
+
+Before [ 3, 4, 5, 8, 9, 12] [ 11]
+After: [ 3, 4, 5, 8, 9, 11, 12]
+The sorting is finished!
+
+Manual Run Through: What Happened?
+We see that the algorithm has two stages: first splitting, then merging.
+
+Although it is possible to implement the Merge Sort algorithm without recursion, we will use recursion because that is the most common approach.
+
+We cannot see it in the steps above, but to split an array in two, the length of the array is divided by two, and then rounded down to get a value we call "mid". This "mid" value is used as an index for where to split the array.
+
+After the array is split, the sorting function calls itself with each half, so that the array can be split again recursively. The splitting stops when a sub-array only consists of one element.
+
+At the end of the Merge Sort function the sub-arrays are merged so that the sub-arrays are always sorted as the array is built back up. To merge two sub-arrays so that the result is sorted, the values of each sub-array are compared, and the lowest value is put into the merged array. After that the next value in each of the two sub-arrays are compared, putting the lowest one into the merged array.
+
+Merge Sort Implementation
+To implement the Merge Sort algorithm we need:
+
+An array with values that needs to be sorted.
+A function that takes an array, splits it in two, and calls itself with each half of that array so that the arrays are split again and again recursively, until a sub-array only consist of one value.
+Another function that merges the sub-arrays back together in a sorted way.
+The resulting code looks like this:
+
+Example
+def mergeSort(arr):
+    if len(arr) <= 1:
+        return arr
+
+    mid = len(arr) // 2
+    leftHalf = arr[:mid]
+    rightHalf = arr[mid:]
+
+    sortedLeft = mergeSort(leftHalf)
+    sortedRight = mergeSort(rightHalf)
+
+    return merge(sortedLeft, sortedRight)
+
+def merge(left, right):
+    result = []
+    i = j = 0
+
+    while i < len(left) and j < len(right):
+        if left[i] < right[j]:
+            result.append(left[i])
+            i += 1
+        else:
+            result.append(right[j])
+            j += 1
+
+    result.extend(left[i:])
+    result.extend(right[j:])
+
+    return result
+
+unsortedArr = [3, 7, 6, -10, 15, 23.5, 55, -13]
+sortedArr = mergeSort(unsortedArr)
+print("Sorted array:", sortedArr)
+
+On line 6, arr[:mid] takes all values from the array up until, but not including, the value on index "mid".
+
+On line 7, arr[mid:] takes all values from the array, starting at the value on index "mid" and all the next values.
+
+On lines 26-27, the first part of the merging is done. At this this point the values of the two sub-arrays are compared, and either the left sub-array or the right sub-array is empty, so the result array can just be filled with the remaining values from either the left or the right sub-array. These lines can be swapped, and the result will be the same.
+
+Merge Sort without Recursion
+Since Merge Sort is a divide and conquer algorithm, recursion is the most intuitive code to use for implementation. The recursive implementation of Merge Sort is also perhaps easier to understand, and uses less code lines in general.
+
+But Merge Sort can also be implemented without the use of recursion, so that there is no function calling itself.
+
+Take a look at the Merge Sort implementation below, that does not use recursion:
+
+Example
+def merge(left, right):
+    result = []
+    i = j = 0
+    
+    while i < len(left) and j < len(right):
+        if left[i] < right[j]:
+            result.append(left[i])
+            i += 1
+        else:
+            result.append(right[j])
+            j += 1
+            
+    result.extend(left[i:])
+    result.extend(right[j:])
+    
+    return result
+
+def mergeSort(arr):
+    step = 1  # Starting with sub-arrays of length 1
+    length = len(arr)
+    
+    while step < length:
+        for i in range(0, length, 2 * step):
+            left = arr[i:i + step]
+            right = arr[i + step:i + 2 * step]
+            
+            merged = merge(left, right)
+            
+            # Place the merged array back into the original array
+            for j, val in enumerate(merged):
+                arr[i + j] = val
+                
+        step *= 2  # Double the sub-array length for the next iteration
+        
+    return arr
+
+unsortedArr = [3, 7, 6, -10, 15, 23.5, 55, -13]
+sortedArr = mergeSort(unsortedArr)
+print("Sorted array:", sortedArr)
+You might notice that the merge functions are exactly the same in the two Merge Sort implementations above, but in the implementation right above here the while loop inside the mergeSort function is used to replace the recursion. The while loop does the splitting and merging of the array in place, and that makes the code a bit harder to understand.
+
+To put it simply, the while loop inside the mergeSort function uses short step lengths to sort tiny pieces (sub-arrays) of the initial array using the merge function. Then the step length is increased to merge and sort larger pieces of the array until the whole array is sorted.
+
+Merge Sort Time Complexity
+For a general explanation of what time complexity is, visit this page.
+
+For a more thorough and detailed explanation of Merge Sort time complexity, visit this page.
+
+The time complexity for Merge Sort is
+
+O
+(
+n
+⋅
+log
+n
+)
+
+And the time complexity is pretty much the same for different kinds of arrays. The algorithm needs to split the array and merge it back together whether it is already sorted or completely shuffled.
+
+If we hold the number of values 
+n
+ fixed, the number of operations needed for the "Random", "Descending" and "Ascending" is almost the same.
+
+Merge Sort performs almost the same every time because the array is split, and merged using comparison, both if the array is already sorted or not.
+Linked List Data Structure
+Last Updated : 11 Dec, 2025
+A linked list is a fundamental data structure in computer science. It mainly allows efficient insertion and deletion operations compared to arrays. Like arrays, it is also used to implement other data structures like stack, queue and deque.
+
+A linked list is a type of linear data structure individual items are not necessarily at contiguous locations. The individual items are called nodes and connected with each other using links.
+
+A node contains two things first is data and second is a link that connects it with another node.
+The first node is called the head node and we can traverse the whole list using this head and next links.
+Here’s the comparison of Linked List and Arrays
+
+Linked List:
+
+Data Structure: Non-contiguous
+Memory Allocation: Typically allocated one by one to individual elements
+Insertion/Deletion: Efficient
+Access: Sequential
+Array:
+
+Data Structure: Contiguous
+Memory Allocation: Typically allocated to the whole array
+Insertion/Deletion: Inefficient
+Access: Random
+Singly Linked List Tutorial
+Last Updated : 05 Oct, 2025
+A singly linked list is a fundamental data structure, it consists of nodes where each node contains a data field and a reference to the next node in the linked list. The next of the last node is null, indicating the end of the list. Linked Lists support efficient insertion and deletion operations.
+
+link1
+Understanding Node Structure
+In a singly linked list, each node consists of two parts: data and a pointer to the next node. This structure allows nodes to be dynamically linked together, forming a chain-like sequence.
+
+
+# Definition of a Node in a singly linked list
+class Node:
+    def __init__(self, data):
+        
+        # Data part of the node
+        self.data = data   
+        self.next = None    
+In this example, the Node class contains an integer data field (data) to store the information and a pointer to another Node (next) to establish the link to the next node in the list.
+
+Creating an Example Linked List of Size 3 to Understand Working
+Create the first node
+
+Allocate memory for the first node and Store data in it.
+Mark this node as head.
+Create the second node
+
+Allocate memory for the second node and Store data in it.
+Link the first node’s next to this new node.
+Create the third node
+
+Allocate memory for the third node and Store data in it.
+Link the second node’s next to this node.
+Set its next to NULL to ensure that the next of the last is NULL.
+
+
+
+# constructor to initialize a new node with data
+class Node:
+    def __init__(self, new_data):
+        self.data = new_data
+        self.next = None
+​
+# Create the first node (head of the list)
+head = Node(10)
+​
+# Link the second node
+head.next = Node(20)
+​
+# Link the third node
+head.next.next = Node(30)
+​
+# Link the fourth node
+head.next.next.next = Node(40)
+​
+# printing linked list
+temp = head
+while temp is not None:
+    print(temp.data, end=" ")
+    temp = temp.next
+
+Output
+10 20 30 40 
+Common Operation in Linked List
+A linked list supports several operations. Here are the most common ones:
+
+Traversal : Traversing singly linked list
+Insertion : At the beginning, At the end and At a specific position
+Deletion : From beginning, From end and From a specific position
+Searching : Find whether a given key exists in the list
+Updating (Modification) : Modify contents of linked list.
+Reversal : Reverse the linked list and make the last node as new head.
+
+Operations Overview
+Traversal
+
+Visit each node from head to end.
+
+Insertion
+
+Beginning: New node becomes head
+
+End: New node is added after last node
+
+Specific Position: Insert node at given index
+
+Deletion
+
+Beginning: Remove head
+
+End: Remove last node
+
+Specific Position: Remove node at given index
+
+Searching
+
+Check if a value exists in the list.
+
+Updating
+
+Change value of a node at a given position.
+
+Reversal
+
+Reverse the links so last node becomes the head.
+#include <iostream>
+using namespace std;
+
+class Node {
+public:
+    int data;
+    Node* next;
+
+    Node(int val) {
+        data = val;
+        next = NULL;
+    }
+};
+
+class LinkedList {
+private:
+    Node* head;
+
+public:
+    LinkedList() {
+        head = NULL;
+    }
+
+    // Traversal
+    void traverse() {
+        Node* temp = head;
+        while (temp) {
+            cout << temp->data << " -> ";
+            temp = temp->next;
+        }
+        cout << "NULL\n";
+    }
+
+    // Insert at beginning
+    void insertAtBeginning(int val) {
+        Node* node = new Node(val);
+        node->next = head;
+        head = node;
+    }
+
+    // Insert at end
+    void insertAtEnd(int val) {
+        Node* node = new Node(val);
+        if (!head) {
+            head = node;
+            return;
+        }
+        Node* temp = head;
+        while (temp->next)
+            temp = temp->next;
+        temp->next = node;
+    }
+
+    // Insert at specific position (1-based)
+    void insertAtPosition(int pos, int val) {
+        if (pos == 1) {
+            insertAtBeginning(val);
+            return;
+        }
+        Node* temp = head;
+        for (int i = 1; i < pos - 1 && temp; i++)
+            temp = temp->next;
+
+        if (!temp) return;
+
+        Node* node = new Node(val);
+        node->next = temp->next;
+        temp->next = node;
+    }
+
+    // Delete from beginning
+    void deleteFromBeginning() {
+        if (!head) return;
+        Node* temp = head;
+        head = head->next;
+        delete temp;
+    }
+
+    // Delete from end
+    void deleteFromEnd() {
+        if (!head || !head->next) {
+            deleteFromBeginning();
+            return;
+        }
+        Node* temp = head;
+        while (temp->next->next)
+            temp = temp->next;
+
+        delete temp->next;
+        temp->next = NULL;
+    }
+
+    // Delete from specific position
+    void deleteFromPosition(int pos) {
+        if (pos == 1) {
+            deleteFromBeginning();
+            return;
+        }
+        Node* temp = head;
+        for (int i = 1; i < pos - 1 && temp; i++)
+            temp = temp->next;
+
+        if (!temp || !temp->next) return;
+
+        Node* del = temp->next;
+        temp->next = del->next;
+        delete del;
+    }
+
+    // Search
+    bool search(int key) {
+        Node* temp = head;
+        while (temp) {
+            if (temp->data == key) return true;
+            temp = temp->next;
+        }
+        return false;
+    }
+
+    // Update value at position
+    void update(int pos, int val) {
+        Node* temp = head;
+        for (int i = 1; i < pos && temp; i++)
+            temp = temp->next;
+
+        if (temp)
+            temp->data = val;
+    }
+
+    // Reverse list
+    void reverse() {
+        Node* prev = NULL;
+        Node* curr = head;
+        Node* next = NULL;
+
+        while (curr) {
+            next = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = next;
+        }
+        head = prev;
+    }
+};
+
+int main() {
+    LinkedList list;
+
+    list.insertAtEnd(10);
+    list.insertAtEnd(20);
+    list.insertAtEnd(30);
+    list.traverse();
+
+    list.insertAtBeginning(5);
+    list.traverse();
+
+    list.insertAtPosition(3, 15);
+    list.traverse();
+
+    list.deleteFromBeginning();
+    list.traverse();
+
+    list.deleteFromEnd();
+    list.traverse();
+
+    list.update(2, 99);
+    list.traverse();
+
+    cout << (list.search(99) ? "Found\n" : "Not Found\n");
+
+    list.reverse();
+    list.traverse();
+
+    return 0;
+}
+Doubly Linked List Tutorial
+Last Updated : 19 Sep, 2025
+A doubly linked list is a more complex data structure than a singly linked list, but it offers several advantages. The main advantage of a doubly linked list is that it allows for efficient traversal of the list in both directions. This is because each node in the list contains a pointer to the previous node and a pointer to the next node. This allows for quick and easy insertion and deletion of nodes from the list, as well as efficient traversal of the list in both directions.
+
+Representation of Doubly Linked List in Data Structure
+In a data structure, a doubly linked list is represented using nodes that have three fields:
+
+Data
+A pointer to the next node (next)
+A pointer to the previous node (prev)
+
+Node Definition
+Here is how a node in a Doubly Linked List is typically represented:
+
+Try it on GfG Practice
+redirect icon
+
+
+
+class Node:
+  
+    def __init__(self, data):
+        # To store the value or data.
+        self.data = data
+​
+        # Reference to the previous node
+        self.prev = None
+​
+        # Reference to the next node
+        self.next = None
+Each node in a Doubly Linked List contains the data it holds, a pointer to the next node in the list, and a pointer to the previous node in the list. By linking these nodes together through the next and prev pointers, we can traverse the list in both directions (forward and backward), which is a key feature of a Doubly Linked List.
+
+Creating a Doubly Linked List with 4 Nodes
+Create the head node.
+
+Allocate a node and set head to it. Its prev and next should be null/None.
+Create the next node and link it to head.
+
+head.next = new Node(value2)
+head.next.prev = head
+Create further nodes the same way.
+
+For the third node:
+=> head.next.next = new Node(value3)
+=> head.next.next.prev = head.next
+Repeat until you have the required nodes.
+Ensure the tail's next is null.
+The last node you created must have next == null
+
+Set / keep track of head (and optionally tail).
+Use head to access the list from the front. Keeping a tail pointer simplifies appends.
+
+
+
+
+class Node:
+    def __init__(self, value):
+        self.data = value
+        self.prev = None
+        self.next = None
+​
+if __name__ == "__main__":
+    # Create the first node (head of the list)
+    head = Node(10)
+​
+    # Create and link the second node
+    head.next = Node(20)
+    head.next.prev = head
+​
+    # Create and link the third node
+    head.next.next = Node(30)
+    head.next.next.prev = head.next
+​
+    # Create and link the fourth node
+    head.next.next.next = Node(40)
+    head.next.next.next.prev = head.next.next
+​
+    # Traverse the list forward and print elements
+    temp = head
+    while temp is not None:
+        print(temp.data, end="")
+        if temp.next is not None:
+            print(" <-> ", end="")
+        temp = temp.next
+
+Output
+10 <-> 20 <-> 30 <-> 40
+Common Operation in Doubly Linked List
+Traversal : Display Linked List Elements
+Insertion : At the Beginning, At the End and At the specific position
+Deletion : From the Beginning, From End and From a Specific Position
+
+
+Advantages of Doubly Linked List
+Bidirectional Traversal - You can traverse forward (using next) as well as backward (using prev).
+Efficient Deletion - Given a pointer to a node, you can delete it in O(1) time (no need to traverse from the head), since you can update both prev and next.
+Insertion at Both Ends - Insertion at head or tail is efficient because you can update both directions easily.
+Easy to Implement Deque / Navigation Features - Useful for undo/redo, browser history, and music playlist navigation, where both forward and backward movement is needed.
+Disadvantages of Doubly Linked List
+Extra Memory Per Node - Each node requires an additional pointer (prev), making DLL more memory-consuming than singly linked list.
+More Complex Implementation - Both prev and next must be handled carefully during insertion and deletion, which increases chances of errors (broken links, null pointer issues)
+Slower Operations Due to Overhead - Extra pointer manipulations during insertion/deletion cause slightly more overhead compared to singly linked list.
+Not Cache-Friendly - Like singly linked list, nodes are scattered in memory, so traversals may be slower compared to arrays due to poor locality of reference.
+
+Doubly Linked List – Quick Overview
+
+A doubly linked list is similar to a singly linked list, but:
+
+Each node has two pointers
+
+prev → points to previous node
+
+next → points to next node
+
+Traversal is possible both forward and backward
+
+Insertion and deletion are easier compared to singly linked lists (no need to track previous node separately)
+
+Common Operations
+Traversal
+
+Display elements from head to tail.
+
+Insertion
+
+At Beginning: New node becomes the head
+
+At End: New node is added after the last node
+
+At Specific Position: Insert node at given position and adjust both prev and next
+
+Deletion
+
+From Beginning: Remove the head node
+
+From End: Remove the last node
+
+From Specific Position: Remove node at given index
+
+Full Code – Doubly Linked List (C++)
+#include <iostream>
+using namespace std;
+
+class Node {
+public:
+    int data;
+    Node* prev;
+    Node* next;
+
+    Node(int val) {
+        data = val;
+        prev = NULL;
+        next = NULL;
+    }
+};
+
+class DoublyLinkedList {
+private:
+    Node* head;
+
+public:
+    DoublyLinkedList() {
+        head = NULL;
+    }
+
+    // Traversal
+    void traverse() {
+        Node* temp = head;
+        while (temp) {
+            cout << temp->data << " <-> ";
+            temp = temp->next;
+        }
+        cout << "NULL\n";
+    }
+
+    // Insert at beginning
+    void insertAtBeginning(int val) {
+        Node* node = new Node(val);
+        if (head) {
+            node->next = head;
+            head->prev = node;
+        }
+        head = node;
+    }
+
+    // Insert at end
+    void insertAtEnd(int val) {
+        Node* node = new Node(val);
+        if (!head) {
+            head = node;
+            return;
+        }
+        Node* temp = head;
+        while (temp->next)
+            temp = temp->next;
+
+        temp->next = node;
+        node->prev = temp;
+    }
+
+    // Insert at specific position (1-based)
+    void insertAtPosition(int pos, int val) {
+        if (pos == 1) {
+            insertAtBeginning(val);
+            return;
+        }
+
+        Node* temp = head;
+        for (int i = 1; i < pos - 1 && temp; i++)
+            temp = temp->next;
+
+        if (!temp) return;
+
+        Node* node = new Node(val);
+        node->next = temp->next;
+        node->prev = temp;
+
+        if (temp->next)
+            temp->next->prev = node;
+
+        temp->next = node;
+    }
+
+    // Delete from beginning
+    void deleteFromBeginning() {
+        if (!head) return;
+
+        Node* temp = head;
+        head = head->next;
+
+        if (head)
+            head->prev = NULL;
+
+        delete temp;
+    }
+
+    // Delete from end
+    void deleteFromEnd() {
+        if (!head) return;
+
+        if (!head->next) {
+            delete head;
+            head = NULL;
+            return;
+        }
+
+        Node* temp = head;
+        while (temp->next)
+            temp = temp->next;
+
+        temp->prev->next = NULL;
+        delete temp;
+    }
+
+    // Delete from specific position
+    void deleteFromPosition(int pos) {
+        if (pos == 1) {
+            deleteFromBeginning();
+            return;
+        }
+
+        Node* temp = head;
+        for (int i = 1; i < pos && temp; i++)
+            temp = temp->next;
+
+        if (!temp) return;
+
+        if (temp->next)
+            temp->next->prev = temp->prev;
+
+        if (temp->prev)
+            temp->prev->next = temp->next;
+
+        delete temp;
+    }
+};
+
+// Driver code
+int main() {
+    DoublyLinkedList dll;
+
+    dll.insertAtEnd(10);
+    dll.insertAtEnd(20);
+    dll.insertAtEnd(30);
+    dll.traverse();
+
+    dll.insertAtBeginning(5);
+    dll.traverse();
+
+    dll.insertAtPosition(3, 15);
+    dll.traverse();
+
+    dll.deleteFromBeginning();
+    dll.traverse();
+
+    dll.deleteFromEnd();
+    dll.traverse();
+
+    dll.deleteFromPosition(2);
+    dll.traverse();
+
+    return 0;
+}
+
+Notes (Short & Useful)
+
+Traversal: O(n)
+
+Insertion & Deletion:
+
+Beginning: O(1)
+
+End / Position: O(n)
+
+Extra memory used for prev pointer
+
+Here are the practical applications of Singly Linked List and Doubly Linked List, explained simply and clearly, no extra talk.
+
+Applications of Singly Linked List
+
+Singly linked lists are used when one-way traversal is enough and memory efficiency matters.
+
+Common Uses
+
+Implementation of stacks and queues
+
+Dynamic memory management
+
+Adjacency list representation in graphs
+
+Undo history (basic level)
+
+Hash table chaining
+
+Music playlist (next song only)
+
+Polynomial representation
+
+File directory structures
+
+Handling large data where frequent insertion/deletion is required
+
+Why Singly Linked List?
+
+Uses less memory than doubly linked list
+
+Simple structure
+
+Faster insertions and deletions compared to arrays
+
+Applications of Doubly Linked List
+
+Doubly linked lists are used when two-way traversal is required.
+
+Common Uses
+
+Browser history (back & forward)
+
+Undo and Redo operations
+
+LRU Cache implementation
+
+Music players (previous & next song)
+
+Navigation systems
+
+Text editor cursor movement
+
+Deque (double-ended queue)
+
+Operating system process scheduling
+
+Memory management systems
+
+Why Doubly Linked List?
+
+Can move forward and backward
+
+Deletion is easier when node reference is known
+
+Better for complex navigation systems
+
+Singly vs Doubly Linked List (Quick Comparison)
+Feature	Singly Linked List	Doubly Linked List
+Pointers per node	1	2
+Traversal	One direction	Both directions
+Memory usage	Less	More
+Implementation	Simple	Slightly complex
+Performance	Faster in simple cases	Better for navigation
+Final Note
+
+Use singly linked list when memory matters and forward traversal is enough
+
+Use doubly linked list when backward navigation is needed

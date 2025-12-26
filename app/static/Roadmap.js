@@ -1,95 +1,84 @@
-function openChapter(card) {
-    const title = card.dataset.title;
-    const desc = card.dataset.desc;
+let chapters = [];
+let currentChapterId = null;
+let currentConceptId = null;
+let currentQuestions = [];
+let currentQuestionIndex = 0;
 
-    document.getElementById("roadmap").style.display = "none";
-    document.getElementById("chapterDetail").style.display = "block";
-
-    document.getElementById("chapterTitle").innerText = title;
-    document.getElementById("chapterDescription").innerText = desc;
+async function loadChapters() {
+    try {
+        const response = await fetch('/api/chapters');
+        const data = await response.json();
+        chapters = data.data.chapters;
+        renderRoadmap();
+    } catch (error) {
+        console.error('Error loading chapters:', error);
+    }
 }
 
-function goBack() {
-    document.getElementById("roadmap").style.display = "grid";
-    document.getElementById("chapterDetail").style.display = "none";
+function renderRoadmap() {
+    const roadmapSection = document.getElementById('roadmap');
+    roadmapSection.innerHTML = '';
+    
+    chapters.forEach((chapter, index) => {
+        const card = document.createElement('div');
+        card.className = 'roadmap-card';
+        card.onclick = () => openChapter(chapter.id);
+        
+        card.innerHTML = `
+            <h4>${index + 1}. ${chapter.title}</h4>
+            <p>${chapter.description}</p>
+            <span>🔓 Available</span>
+        `;
+        
+        roadmapSection.appendChild(card);
+    });
 }
 
-const chapters = {
-    basics: {
-        title: "Basics & Complexity",
-        description: "Learn algorithm fundamentals, time & space complexity, and Big-O notation.",
-        topics: {
-            "What is Algorithm?": "An algorithm is a step-by-step procedure to solve a problem efficiently.",
-            "Time Complexity": "Time complexity measures how execution time grows with input size.",
-            "Space Complexity": "Space complexity measures extra memory used by an algorithm.",
-            "Big-O Notation": "Big-O describes the worst-case performance of an algorithm."
-        }
-    },
-
-    arrays: {
-        title: "Arrays",
-        description: "Master arrays using popular techniques and interview problems.",
-        topics: {
-            "Introduction to Arrays": "Arrays store elements in contiguous memory locations.",
-            "Prefix Sum": "Prefix sum helps answer range queries efficiently.",
-            "Sliding Window": "Sliding window optimizes subarray problems.",
-            "Kadane’s Algorithm": "Finds the maximum subarray sum in linear time."
-        }
-    },
-
-    strings: {
-        title: "Strings",
-        description: "Learn string manipulation techniques for coding interviews.",
-        topics: {
-            "String Basics": "Strings are sequences of characters.",
-            "Two Pointer Technique": "Efficiently process strings using two pointers.",
-            "Pattern Matching": "Match patterns using brute force or optimized techniques."
-        }
-    },
-
-};
-
-function openChapter(key) {
-    const chapter = chapters[key];
-
+async function openChapter(chapterId) {
+    currentChapterId = chapterId;
+    const chapter = chapters.find(c => c.id === chapterId);
+    
     document.getElementById("roadmap").style.display = "none";
     document.getElementById("chapterDetail").style.display = "block";
-
+    
     document.getElementById("chapterTitle").innerText = chapter.title;
     document.getElementById("chapterDescription").innerText = chapter.description;
-
+    
     const subtopicsDiv = document.getElementById("subtopics");
     subtopicsDiv.innerHTML = "";
-
-    Object.keys(chapter.topics).forEach(topic => {
+    
+    chapter.concepts.forEach(concept => {
         const btn = document.createElement("button");
-        btn.innerText = topic;
-        btn.onclick = () => openTopic(topic, chapter.topics[topic]);
+        btn.innerText = concept.concept_name;
+        btn.onclick = () => openConcept(chapterId, concept.concept_id);
         subtopicsDiv.appendChild(btn);
     });
-
-    document.getElementById("topicTitle").innerText = "Select a topic";
-    document.getElementById("topicText").innerText = "Click a subtopic to view its content.";
-
+    
+    document.getElementById("topicTitle").innerText = "Select a concept";
+    document.getElementById("topicText").innerText = "Click a concept to view its content.";
     document.getElementById("testbtn").style.display = "none";
 }
 
-function openTopic(title, content) {
-    document.getElementById("topicTitle").innerText = title;
-    document.getElementById("topicText").innerText = content;
-
-    document.getElementById("testbtn").style.display = "inline-block";
+async function openConcept(chapterId, conceptId) {
+    currentConceptId = conceptId;
+    try {
+        const response = await fetch(`/api/concepts/${chapterId}/${conceptId}`);
+        const data = await response.json();
+        const concept = data.data.concept;
+        
+        document.getElementById("topicTitle").innerText = concept.concept_name;
+        document.getElementById("topicText").innerText = concept.concept_desc;
+        document.getElementById("testbtn").style.display = "inline-block";
+    } catch (error) {
+        console.error('Error loading concept:', error);
+    }
 }
 
 function goBack() {
     document.getElementById("chapterDetail").style.display = "none";
     document.getElementById("roadmap").style.display = "grid";
-
     document.getElementById("testbtn").style.display = "none";
 }
-
-
-
 
 function openQuiz() {
     document.getElementById("quizModal").style.display = "flex";
@@ -101,86 +90,118 @@ function closeQuiz() {
     document.getElementById("quizForm").reset();
 }
 
-function submitQuiz() {
-    const options = document.getElementsByName("option");
-    let selected = "";
-
-    for (let opt of options) {
-        if (opt.checked) {
-            selected = opt.value;
-        }
-    }
-
-    const result = document.getElementById("quizResult");
-
-    if (selected === "") {
-        result.innerText = "⚠️ Please select an option";
-        return;
-    }
-
-    if (selected === "O(log n)") {
-        result.innerText = "✅ Correct Answer!";
-        result.style.color = "green";
-    } else {
-        result.innerText = "❌ Wrong Answer!";
-        result.style.color = "red";
+async function loadQuiz() {
+    if (!currentChapterId || !currentConceptId) return;
+    
+    try {
+        const response = await fetch(`/api/test-concept/${currentChapterId}/${currentConceptId}`);
+        const data = await response.json();
+        currentQuestions = data.data.questions;
+        currentQuestionIndex = 0;
+        
+        displayQuestionInContent();
+    } catch (error) {
+        console.error('Error loading quiz:', error);
     }
 }
 
-function loadQuiz() {
-    const content = document.getElementById("contentArea");
-
-    content.innerHTML = `
+function displayQuestionInContent() {
+    if (currentQuestionIndex >= currentQuestions.length) {
+        document.getElementById("contentArea").innerHTML = `
+            <h3>Quiz Complete! 🎉</h3>
+            <p>You have completed all questions for this concept.</p>
+            <button onclick="resetToContent()">Back to Content</button>
+        `;
+        return;
+    }
+    
+    const question = currentQuestions[currentQuestionIndex];
+    
+    document.getElementById("contentArea").innerHTML = `
         <h3>Quick Quiz 🧠</h3>
-        <p>What is the time complexity of Binary Search?</p>
-
+        <p>${question.question}</p>
+        
         <form id="quizForm">
-            <label>
-                <input type="radio" name="option" value="O(n)"> O(n)
-            </label><br>
-
-            <label>
-                <input type="radio" name="option" value="O(log n)"> O(log n)
-            </label><br>
-
-            <label>
-                <input type="radio" name="option" value="O(n log n)"> O(n log n)
-            </label><br>
-
-            <label>
-                <input type="radio" name="option" value="O(1)"> O(1)
-            </label><br><br>
-
+            ${question.options.map(option => `
+                <label>
+                    <input type="radio" name="option" value="${option}"> ${option}
+                </label><br>
+            `).join('')}
+            
             <button type="button" onclick="submitQuiz()">Submit</button>
         </form>
-
+        
         <p id="quizResult"></p>
     `;
 }
 
-function submitQuiz() {
+function resetToContent() {
+    const chapter = chapters.find(c => c.id === currentChapterId);
+    const concept = chapter.concepts.find(c => c.concept_id === currentConceptId);
+    
+    document.getElementById("contentArea").innerHTML = `
+        <h3 id="topicTitle">${concept.concept_name}</h3>
+        <p id="topicText">Click a concept to view its content.</p>
+        <button id="testbtn" onclick="loadQuiz()">Test Concept</button>
+    `;
+}
+
+async function submitQuiz() {
     const options = document.getElementsByName("option");
     let selected = "";
-
+    
     for (let opt of options) {
         if (opt.checked) {
             selected = opt.value;
         }
     }
-
-    const result = document.getElementById("quizResult");
-
+    
     if (!selected) {
-        result.innerText = "⚠️ Please select an option";
-        result.style.color = "orange";
+        document.getElementById("quizResult").innerText = "⚠️ Please select an option";
         return;
     }
-
-    if (selected === "O(log n)") {
-        result.innerText = "✅ Correct Answer!";
-        result.style.color = "lightgreen";
-    } else {
-        result.innerText = "❌ Wrong Answer. Correct is O(log n)";
-        result.style.color = "red";
+    
+    const question = currentQuestions[currentQuestionIndex];
+    
+    try {
+        const formData = new FormData();
+        formData.append('payload', JSON.stringify({
+            question_id: question.question_id,
+            chosen_option: selected
+        }));
+        
+        const response = await fetch('/api/check-answer', {
+            method: 'POST',
+            body: formData
+        });
+        
+        const data = await response.json();
+        const resultDiv = document.getElementById("quizResult");
+        
+        if (data.data.correct) {
+            resultDiv.innerHTML = `
+                <div style="color: green;">✅ Correct Answer!</div>
+                <div style="margin: 10px 0;">${data.data.explanation || ''}</div>
+                <button onclick="nextQuestion()" style="margin-top: 10px;">Next Question</button>
+            `;
+        } else {
+            resultDiv.innerHTML = `
+                <div style="color: red;">❌ Wrong Answer! Correct: ${data.data.correct_answer}</div>
+                <button onclick="nextQuestion()" style="margin-top: 10px;">Next Question</button>
+            `;
+        }
+        
+    } catch (error) {
+        console.error('Error checking answer:', error);
     }
 }
+
+function nextQuestion() {
+    currentQuestionIndex++;
+    displayQuestionInContent();
+}
+
+// Initialize the page
+document.addEventListener('DOMContentLoaded', function() {
+    loadChapters();
+});
