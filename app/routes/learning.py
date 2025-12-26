@@ -144,6 +144,11 @@ async def test_concept(request: Request, chapter_id: int, concept_id: int):
         Generate {"5" if user_preference == "Prefer more pracice questions" else "3"} MCQ with 4 options and specify the correct answer and explanation.
 
         IMPORTANT: Return ONLY a valid JSON array format. No additional text or explanation outside the JSON.
+                   No backticks just follow the JSON Structure and respond in that. 
+                   Return ONLY valid JSON.
+                    Do not include backslashes.
+                    Do not include code, regex, or file paths.
+                    The output must be parsable by Python json.loads().
         
         Required JSON structure:
         [
@@ -161,13 +166,27 @@ async def test_concept(request: Request, chapter_id: int, concept_id: int):
         gemini = get_gemini_service()
         res = gemini.generate_response(system_prompt=prompt)
         print(res)
-        
+        print(type(res))
         # Parse JSON response if it's a string
-        if isinstance(res, str):
-            res = json.loads(res)
-        
+        # if isinstance(res, str):
+        #     try:
+        #         res = json.loads(res)
+        #     except json.JSONDecodeError:
+        #         # Try to clean the response and parse again
+
+        # cleaned_res = res.strip()
+        # if cleaned_res.startswith('```json'):
+        #     cleaned_res = cleaned_res[7:]
+        # if cleaned_res.endswith('```'):
+        #     cleaned_res = cleaned_res[:-3]
+        # res = json.loads(cleaned_res.strip())
+
         saved_questions = []
-        for question_data in res: 
+        questions = json.loads(res)
+        print(questions)
+        for question_data in questions: 
+            print("question_data")
+            print(question_data)    
             cursor.execute(
                 "INSERT INTO user_questions (user_id, chapter_id, concept_id, question, explanation) VALUES (%s, %s, %s, %s, %s)",
                 (request.session.get("user_id"), chapter_id, concept_id, question_data["question"], question_data["explanation"])

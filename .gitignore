@@ -1,3 +1,4 @@
 /app/SyncSphere_EDU001_PDF.pdf
 /app/__pycache__
 venv
+app/.env
