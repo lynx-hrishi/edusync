@@ -8,7 +8,7 @@ router = APIRouter()
 router.post("/login")(loginUser)
 router.post("/register")(registerUser)
 
-@router.post("/logout")
-async def logout(request: Request):
-    request.session.clear()
-    return successResponse(message="Logged out successfully")
+# @router.get("/logout")
+# async def logout(request: Request):
+#     request.session.clear()
+#     return successResponse(message="Logged out successfully")

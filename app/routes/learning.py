@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException, Request, Form
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from app.models import SavePreferenceRequest, CheckAnswerRequest, Chapter, Concept, Question, LearningPath
 from typing import List
@@ -20,6 +20,12 @@ async def saveUserPreference(request: Request, payload: str = Form(...)):
             return successResponse(message="User preference saved successfully", status_code=201)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+    
+
+@router.get("/logout")
+async def logout(request: Request):
+    request.session.clear()
+    return RedirectResponse(url="/", status_code=302)
     
 
 @router.get("/chapters")

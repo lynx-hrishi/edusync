@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException, Form, Request
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, RedirectResponse
 from app.services.registerService import registerUserService, saveUserPreferenceService
 from app.services.loginUserService import loginUserService
 from app.utils.responseUtils import successResponse, errorResponse
@@ -45,7 +45,3 @@ async def loginUser(request: Request, payload: str = Form(...)):
             return successResponse(message="User logged in successfully", data={"redirect_url": redirect_url})
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-    
-async def logout(request: Request):
-    request.session.clear()
-    return successResponse(message="Logged out successfully")
